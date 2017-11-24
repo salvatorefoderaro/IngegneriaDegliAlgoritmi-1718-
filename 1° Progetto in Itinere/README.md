@@ -1,5 +1,3 @@
-*Relazione progetto*
-
 **Ingegneria degli Algoritmi – AA 2017 2018 – Prima Prova in Itinere**
 
 **Studente:** Foderaro Salvatore
