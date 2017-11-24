@@ -1,3 +1,5 @@
-# Salvatore Foderaro - Numero matricola: 0214381
+**Ingegneria degli Algoritmi – AA 2017 2018 – Repository Python**
 
-Repository dedicata ai progetti Python per il corso di Ingegneria degli Algoritmi, AA 2017/2018.
+**Studente:** Foderaro Salvatore
+
+**Numero di Matricola:** 0214381
