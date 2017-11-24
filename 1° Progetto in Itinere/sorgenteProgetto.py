@@ -17,8 +17,6 @@
 from module.binaryTree import BinaryTree
 from module.binaryTree import BinaryNode
 from module.dictBinaryTree import DictBinaryTree
-import random
-import time
 
 class DictLazy(DictBinaryTree):
     def __init__(self):

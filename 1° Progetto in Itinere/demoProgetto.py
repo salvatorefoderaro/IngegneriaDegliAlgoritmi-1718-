@@ -1,4 +1,16 @@
 # coding=utf-8
+"""
+    File name: demoProgetto.py
+    Author: Salvatore Foderaro
+    Date created: 16/11/2017
+    Modified By: Salvatore Foderaro
+    Date last modified: [Insert Date]
+    Python Version: 2.7.14
+
+    Questo modulo implementa le sequenti funzioni:
+	- dictLazyBench(number) crea un albero AVL con number-elementi ed esegue le tre funzioni implementate number-volte, stampando a video i singoli tempi di esecuzione
+	- dictLazyGUI simula un esecuzione a video delle funzioni implementate in sorgenteProgetto.py
+"""
 from module.binaryTree import BinaryTree
 from module.binaryTree import BinaryNode
 from module.dictBinaryTree import DictBinaryTree
