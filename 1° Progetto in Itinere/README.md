@@ -36,15 +36,12 @@ Per la risoluzione del problema ho definito le funzioni richieste:
 3.  **insertLazyControl(chiave,valore):** prima di inserire la coppia **(chiave, valore)** nell’albero, controllo se esiste già un nodo associato alla chiave che voglio inserire ed il suo valore di eliminazione. Se il nodo è già presente ed il suo valore di eliminazione è **1**, imposto il valore passato alla funzione come nuovo valore del nodo ed il valore di eliminazione a **0**. Altrimenti se nell'albero non è presente nessun nodo associato alla chiave, o presente ma con valore di eliminazione **0**, effettuo il normale inserimento tramite **lazyInsert**
 
 
-###Utilizzo Lazy Deletion
+### Utilizzo Lazy Deletion
 
-L’uso della Lazy Deletion è preferibile nei casi in cui dopo
+L’uso della **Lazy Deletion** è preferibile nei casi in cui dopo
 l’eliminazione di un nodo è molto probabile il suo reinserimento,
 oppure quando si vuole indicare un nodo come “disabilitato”. Utilizzando
-la Lazy Deletion, invece di rimuovere il nodo e doverlo successivamente reinserire,
-semplicemente lo segno come eliminato. Al reinserimento del nodo,
-l’operazione mi costerà solo l’aggiornamento dell’informazione relativa
-all’eliminazione, ed al massimo l’aggiornamento dell’informazione
-relativa al suo valore.
+la Lazy Deletion, *invece di rimuovere il nodo e doverlo successivamente reinserire*,
+basta segnarlo come eliminato. Al suo reinserimento l’operazione mi costerà solo l’aggiornamento dell’informazione relativa all’eliminazione, ed al massimo quella relativa al suo valore.
 
-###Tempo di esecuzione teorico
+### Tempo di esecuzione teorico
