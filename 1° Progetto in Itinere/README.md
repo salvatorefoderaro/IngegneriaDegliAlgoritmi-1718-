@@ -25,15 +25,15 @@ Ho inoltre definito le seguenti funzioni aggiuntive:
 
 -   **isDeletedOr(nodo):** restituisce True se il nodo risulta eliminato, altrimenti False
 
--   **setValue(nodo,valore**): permette di modificare il valore del nodo
+-   **setValue(nodo,valore):** permette di modificare il valore del nodo
 
 Per la risoluzione del problema ho definito le funzioni richieste:
 
 1.  **lazySearch(chiave):** cerco il nodo associato alla chiave e controllo se il suo valore di eliminazione è 0; in caso positivo, restituisco il nodo, altrimenti restituisco **Nome**
 
-2.  **boolDeleteLazy(chiave):** tramite **lazySearch** cerco il nodo associato alla chiave. Se la funzione chiamata restituisce il nodo, quindi quest’ultimo è presente nell’albero e non è segnato come eliminato, allora segno il nodo come eliminato e restituisco True. Altrimenti, nel caso in cui **lazySearch** restituisce None, dunque il nodo non è presente nell’albero o è presente ma risulta come eliminato, restituisco False
+2.  **boolDeleteLazy(chiave):** tramite **lazySearch** cerco il nodo associato alla chiave. Se la funzione chiamata restituisce il nodo, quindi quest’ultimo è presente nell’albero e non è segnato come eliminato, allora segno il nodo come eliminato e restituisco True. Altrimenti, nel caso in cui **lazySearch** restituisce *None*, la funzione restituisce **False**
 
-3.  **insertLazyControl(chiave,valore):** prima di inserire la coppia **(chiave, valore)** nell’albero, controllo se esiste già un nodo associato alla chiave che voglio inserire ed il suo valore di eliminazione. Se il nodo è già presente ed il suo valore di eliminazione è **1**, imposto il valore passato alla funzione come nuovo valore del nodo ed il valore di eliminazione a **0**. Altrimenti se nell'albero non è presente nessun nodo associato alla chiave, o presente ma con valore di eliminazione **0**, effettuo il normale inserimento tramite **lazyInsert**
+3.  **insertLazyControl(chiave,valore):** prima di inserire la coppia **chiave, valore)** nell’albero, controllo se esiste già un nodo associato alla chiave che voglio inserire ed il suo valore di eliminazione. Se il nodo è già presente ed il suo valore di eliminazione è **1**, imposto il valore passato alla funzione come nuovo valore del nodo ed il valore di eliminazione a **0**. Altrimenti se nell'albero non è presente nessun nodo associato alla chiave, o presente ma con valore di eliminazione **0**, effettuo il normale inserimento tramite **lazyInsert**
 
 
 ### Utilizzo Lazy Deletion
