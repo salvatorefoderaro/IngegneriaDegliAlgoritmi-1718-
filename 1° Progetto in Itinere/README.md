@@ -44,4 +44,8 @@ oppure quando si vuole indicare un nodo come “disabilitato”. Utilizzando
 la Lazy Deletion, *invece di rimuovere il nodo e doverlo successivamente reinserire*,
 basta segnarlo come eliminato. Al suo reinserimento l’operazione mi costerà solo l’aggiornamento dell’informazione relativa all’eliminazione, ed al massimo quella relativa al suo valore.
 
+<<<<<<< HEAD
 ### Tempo di esecuzione teorico
+=======
+### Tempo di esecuzione teorico
+>>>>>>> 1ea187c49c28db022f846d84c0040774c42fa2ce
