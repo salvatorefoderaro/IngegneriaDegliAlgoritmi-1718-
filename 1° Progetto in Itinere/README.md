@@ -29,7 +29,7 @@ Ho inoltre definito le seguenti funzioni aggiuntive:
 
 Per la risoluzione del problema ho definito le funzioni richieste:
 
-1.  **lazySearch(chiave):** cerco il nodo associato alla chiave e controllo se il suo valore di eliminazione è 0; in caso positivo, restituisco il nodo, altrimenti restituisco **Nome**
+1.  **lazySearch(chiave):** cerco il nodo associato alla chiave e controllo se il suo valore di eliminazione è 0; in caso positivo, restituisco il nodo, altrimenti restituisco **None**
 
 2.  **boolDeleteLazy(chiave):** tramite **lazySearch** cerco il nodo associato alla chiave. Se la funzione chiamata restituisce il nodo, quindi quest’ultimo è presente nell’albero e non è segnato come eliminato, allora segno il nodo come eliminato e restituisco True. Altrimenti, nel caso in cui **lazySearch** restituisce *None*, la funzione restituisce **False**
 
