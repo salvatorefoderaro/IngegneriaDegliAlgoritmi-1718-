@@ -8,7 +8,7 @@
 
 ### Descrizione algoritmo
 
-Per l’implementazione del dizionario, ho dapprima definito la funzione **lazyInsert**, simile alla funzione **insert** già presente nel dizionario degli alberi binari. L’unica differenza sta nell’aggiunta del terzo campo nella lista delle informazioni del nodo, impostato di default a 0. Ho definito questo terzo elemento della lista come **Valore di eliminazione del nodo**; se uguale a **1**, il nodo risulta eliminato, se uguale a **0** no.
+Per l’implementazione del dizionario, ho dapprima definito la funzione **lazyInsert**, simile alla funzione **insert** già presente nel dizionario degli alberi binari. L’unica differenza sta nell’aggiunta del terzo campo nella lista delle informazioni del nodo, impostato di default a 0. Ho definito questo terzo elemento della lista come **Valore di eliminazione del nodo**: se uguale a **1**, il nodo risulta eliminato; se uguale a **0**, no.
 
 Ho inoltre definito le seguenti *funzioni aggiuntive*:
 
@@ -16,9 +16,9 @@ Ho inoltre definito le seguenti *funzioni aggiuntive*:
 
 -   **setDeleted(nodo):** segna il nodo come eliminato, andando ad impostare ad 1 il valore di eliminazione;
 
--   **setUnDeleted(nodo):** segna il nodo come non eliminato, andando ad impostare a 0 il valore di eliminazione;
+-   **setUnDeleted(nodo):** segna il nodo come non eliminato, andando ad impostare a *0* il valore di eliminazione;
 
--   **isDeletedOr(nodo):** restituisce True se il nodo risulta eliminato, altrimenti *False*;
+-   **isDeletedOr(nodo):** restituisce *True* se il nodo risulta eliminato, altrimenti *False*;
 
 -   **setValue(nodo,valore):** permette di modificare il valore del nodo;
 
