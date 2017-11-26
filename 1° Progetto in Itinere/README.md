@@ -28,7 +28,7 @@ Per la risoluzione del problema ho definito le funzioni richieste:
 
 2.  **boolDeleteLazy(chiave):** tramite **lazySearch**, la fuzione effettua il controllo sul nodo associato alla *chiave*; se la funzione chiamata restituisce il nodo, **boolDeleteLazy** lo segna come eliminato e restituisce **True**. Altrimenti, restituisce **False**;
 
-3.  **insertLazyControl(chiave,valore):** prima di inserire la coppia **(chiave, valore)** nell’albero, la funzione controlla se esiste già un nodo associato alla chiave da inserire ed eventualmente il suo valore di eliminazione; se il nodo è già presente ed il suo valore di eliminazione è **1**, (la funzione?) imposta  il valore passato alla funzione come nuovo valore del nodo ed il valore di eliminazione a **0**. Altrimenti se nell'albero non è presente nessun nodo associato alla chiave, o presente ma con valore di eliminazione **0**, (la funzione?) effettua il normale inserimento tramite **lazyInsert**;
+3.  **insertLazyControl(chiave,valore):** prima di inserire la coppia **(chiave, valore)** nell’albero, la funzione controlla se esiste già un nodo associato alla chiave da inserire ed eventualmente il suo valore di eliminazione; se il nodo è già presente ed il suo valore di eliminazione è **1**, imposta  il valore passato alla funzione come nuovo valore del nodo ed il valore di eliminazione a **0**. Altrimenti se nell'albero non è presente nessun nodo associato alla chiave, o presente ma con valore di eliminazione **0**, effettua il normale inserimento tramite **lazyInsert**;
 
 
 ### Utilizzo Lazy Deletion
