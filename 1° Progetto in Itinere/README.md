@@ -1,4 +1,4 @@
-**Ingegneria degli Algoritmi – AA 2017 2018 – Prima Prova in Itinere**
+**Ingegneria degli algoritmi – AA 2017 2018 – Prima Prova in Itinere**
 
 **Studente:** Foderaro Salvatore
 
