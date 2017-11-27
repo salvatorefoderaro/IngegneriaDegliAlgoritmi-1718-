@@ -120,4 +120,15 @@ class DictLazy(DictBinaryTree):
 
         
 if __name__ == "__main__":
-    print
+    albero = DictLazy() # Creo l'albero
+    for i in range(1, 10):
+        albero.lazyInsert(i, i)
+    print("\nAlbero dopo inserimento elementi:")
+    albero.tree.stampa() # Stampo l'albero
+    albero.boolDeleteLazy(7)
+    print("\nAlbero dopo boolDeleteLazy(7):")
+    albero.tree.stampa() # Stampo l'albero dopo aver eseguito boolDeleteLazy
+    print("\nChiamo lazySearch(7):")
+    print albero.lazySearch(7)
+    print("\nChiamo lazySearch(6):")
+    print albero.lazySearch(6)
