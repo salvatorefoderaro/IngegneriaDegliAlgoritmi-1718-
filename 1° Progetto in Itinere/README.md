@@ -34,5 +34,4 @@ Per la risoluzione del problema ho definito le funzioni richieste:
 ### Utilizzo Lazy Deletion
 
 L’uso della **Lazy Deletion** è preferibile nei casi in cui si vuole indicare un nodo come disabilitato, mantenendo tutte le informazioni (*valore*) ad esso associati. Tramite le funzioni **boolDeleteLazy** e **InsertLazyControl** è possibile segnare il nodo come eliminato e successivamente riabilitarlo.  In questo modo le operazioni sul nodo hanno il solo costo di aggiornamento dell'informazione relativa all'eliminazione.
-
 ### Tempo di esecuzione teorico
