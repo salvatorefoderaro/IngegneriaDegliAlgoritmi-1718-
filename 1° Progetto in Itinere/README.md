@@ -34,4 +34,22 @@ Per la risoluzione del problema ho definito le funzioni richieste:
 ### Utilizzo Lazy Deletion
 
 L’uso della **Lazy Deletion** è preferibile nei casi in cui si vuole indicare un nodo come disabilitato, mantenendo tutte le informazioni (*valore*) ad esso associati. Tramite le funzioni **boolDeleteLazy** e **InsertLazyControl** è possibile segnare il nodo come eliminato e successivamente riabilitarlo.  In questo modo le operazioni sul nodo hanno il solo costo di aggiornamento dell'informazione relativa all'eliminazione.
+
 ### Tempo di esecuzione teorico
+
+Trattandosi di un **Albero binario di ricerca**, tutte le operazioni hanno costo **O(h)**, dove *h* rappresenta l'altezza dell'albero.
+
+Le funzioni implementate, oltre alle classiche operazioni da **BST**, includono il confronto del valore di un array ed eventualmente la sua modifica. Tutte operazioni che vengono svolte in **O(1)**.
+
+Dunque le operazioni di un **Binary Search Tree con Lazy Deletion**, implementata come mostrato in questa breve relazione, hanno costo **O(h)**
+
+### Tempo di esecuzione sperimentale
+
+- Tempo espresso in secondi
+- \# di esecuzioni della funzione con input random
+
+|  | 10.000 | 100.000 | 1.000.000 |
+|-------------------|--------|--------|--------|
+| boolDeleteLazy | 0.58 | 0.54 | 0.96 |
+| lazySearch | 7.93 | 7.50 | 12.58 |
+| insertLazyControl | 100.24 | 94.59 | 161.88 |

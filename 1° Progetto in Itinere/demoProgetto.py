@@ -106,8 +106,8 @@ def dictLazyGUI():
 if __name__ == "__main__":
 
     dictLazyGUI()
-    dictLazyBench(100)
-    dictLazyBench(200)
-    dictLazyBench(300)
+    dictLazyBench(10000)
+    dictLazyBench(100000)
+    dictLazyBench(1000000)
 
 
