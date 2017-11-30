@@ -4,7 +4,7 @@
     Author: Salvatore Foderaro
     Date created: 16/11/2017
     Modified By: Salvatore Foderaro
-    Date last modified: 26/11/2017
+    Date last modified: 30/11/2017
     Python Version: 2.7.14
 
     Questo modulo implementa le sequenti funzioni:
@@ -49,65 +49,65 @@ def dictLazyBench(n):
 
 def dictLazyGUI():
     """La funzione mi permette di mostrare a video, a mo di interfaccia grafica, una Demo di esecuzione delle tre funzioni implementate"""
-    print "\n                <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>          \n"
+    print "\n                <<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n\n"
 
-    print "Creo un Albero con le proprietà di Lazy Search ---------------> alb2 = DictLazy()  "
-    print "Sfrutto un ciclo for per inserire 10 elementi nell'albero"
+    print "Creo un Albero con le proprietà di Lazy Search ---------------> alb2 = DictLazy()\n"
+    print "Sfrutto un ciclo for per inserire 50 elementi nell'albero"
     alb2 = DictLazy()
     for i in range(1, 10):
         alb2.lazyInsert(i, i)
-    print "\n                <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< bool delete (key k) >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>          \n"
-    print "=================== Funzione da implementare ==================="
-    print "\nSe il nodo con chiave k e' presente nell albero e non e' segnato come eliminato, segna il nodo come eliminato e ritorna True.\nSe il nodo con chiave k non e' presente nell albero, o e' presente ma e' stato gia' precedentemente segnato come eliminato, ritorna False."
-    print "\n=================== Demo implementazione ==================="
+    print "\n\n\n\n               <<<<<<<<<<<<<<<<<<<< bool delete (key k) >>>>>>>>>>>>>>>>>>>>\n\n"
+    print "======== Funzione da implementare ======== \n\n"
+    print "Se il nodo con chiave k e' presente nell albero e non e' segnato come eliminato, segna il nodo come eliminato e ritorna True.\nSe il nodo con chiave k non e' presente nell albero, o e' presente ma e' stato gia' precedentemente segnato come eliminato, ritorna False."
+    print "\n\n======== Demo implementazione ======== \n"
     node = alb2.searchNode(5)
     print "\nAssocio alla variabile node il nodo dell'albero con chiave 5 ---------------> node = alb2.searchNode(5)"
-    print "Il nodo con chiave 5 e' segnato come eliminato? ------- alb2.isDeletedOr(node) --------> ", alb2.isDeletedOr(node)
-    print "Cosa restituisce la funzione boolDeleteLazy(5)? ------- alb2.boolDeleteLazy(5) --------> ", alb2.boolDeleteLazy(5)
-    print "Il nodo con chiave 5 e' segnato come eliminato? ------- alb2.isDeletedOr(node) --------> ", alb2.isDeletedOr(node)
     print "\nIl nodo con chiave 5 e' segnato come eliminato? ------- alb2.isDeletedOr(node) --------> ", alb2.isDeletedOr(node)
-    print "Cosa restituisce la funzione boolDeleteLazy(5)? ------- alb2.boolDeleteLazy(5) --------> ", alb2.boolDeleteLazy(5)
+    print "\nCosa restituisce la funzione boolDeleteLazy(5)? ------- alb2.boolDeleteLazy(5) --------> ", alb2.boolDeleteLazy(5)
+    print "\nIl nodo con chiave 5 e' segnato come eliminato? ------- alb2.isDeletedOr(node) --------> ", alb2.isDeletedOr(node)
+    print "\nIl nodo con chiave 5 e' segnato come eliminato? ------- alb2.isDeletedOr(node) --------> ", alb2.isDeletedOr(node)
+    print "\nCosa restituisce la funzione boolDeleteLazy(5)? ------- alb2.boolDeleteLazy(5) --------> ", alb2.boolDeleteLazy(5)
     print "\nCosa restituisce la funzione boolDeleteLazy(50)? [Elemento non apparteente all'array] ------- alb2.boolDeleteLazy(50) -------->  ", alb2.boolDeleteLazy(50)
-    print "\n                <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< search (key k) >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>          \n"
-    print "=================== Funzione da implementare ==================="
-    print "\nRitorna il nodo con chiave k se questo è presente nell’albero e non è segnato come eliminato."
-    print "\n=================== Demo implementazione ==================="
+    print "\n\n\n\n\n\n               <<<<<<<<<<<<<<<<<<<< search (key k) >>>>>>>>>>>>>>>>>>>>\n\n"
+    print "======== Funzione da implementare ======== \n\n"
+    print "Ritorna il nodo con chiave k se questo è presente nell’albero e non è segnato come eliminato."
+    print "\n\n======== Demo implementazione ========\n\n"
     node1 = alb2.searchNode(9)
-    print "\nAssocio alla variabile node1 il nodo dell'albero con chiave 9 ---------------> node1 = alb2.searchNode(9)"
-    print "Il nodo con chiave 9 e' segnato come eliminato? ------- alb2.isDeletedOr(node1) --------> ", alb2.isDeletedOr(node1)
-    print "Cosa restituisce la funzione lazySearch(9)? ------- alb2.lazySearch(9) --------> ", alb2.lazySearch(9)
+    print "Associo alla variabile node1 il nodo dell'albero con chiave 9 ---------------> node1 = alb2.searchNode(9)"
+    print "\nIl nodo con chiave 9 e' segnato come eliminato? ------- alb2.isDeletedOr(node1) --------> ", alb2.isDeletedOr(node1)
+    print "\nCosa restituisce la funzione lazySearch(9)? ------- alb2.lazySearch(9) --------> ", alb2.lazySearch(9)
     print "\nImposto il nodo come eliminato ---------------> alb2.setDeleted(node1)"
     alb2.setDeleted(node1)
     print "\nIl nodo con chiave 9 è segnato come eliminato? ------- alb2.isDeletedOr(node1) --------> ", alb2.isDeletedOr(node1)
-    print "Cosa restituisce la funzione lazySearch(9)? ------- alb2.lazySearch(9) --------> ", alb2.lazySearch(9)
+    print "\nCosa restituisce la funzione lazySearch(9)? ------- alb2.lazySearch(9) --------> ", alb2.lazySearch(9)
     print "\nCosa restituisce la funzione lazySearch(100)? [Elemento non appartenente all'array] ------- alb2.lazySearch(100) -------->", alb2.lazySearch(100)
-    print "\n                <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Insert (key k, value v) >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>          \n"
-    print "=================== Funzione da implementare ==================="
-    print "\nInserisce una nuova coppia (k,v) nell’albero binario. Se è possibile inserire il nodo con chiave k nella posizione di un nodo segnato come eliminato, sostituisce il vecchio nodo co  il nuovo."
-    print "\n=================== Demo implementazione ==================="
+    print "\n\n\n\n\n\n               <<<<<<<<<<<<<<<<<<<< Insert (key k, value v) >>>>>>>>>>>>>>>>>>>>\n\n"
+    print "======== Funzione da implementare ========\n\n"
+    print "Inserisce una nuova coppia (k,v) nell’albero binario. Se è possibile inserire il nodo con chiave k nella posizione di un nodo segnato come eliminato, sostituisce il vecchio nodo co  il nuovo."
+    print "\n\n======== Demo implementazione ========\n\n"
     node3 = alb2.searchNode(3)
-    print "\nAssocio alla variabile node3 il nodo dell'albero con chiave 9 ---------------> node3 = alb2.searchNode(3)"
-    print "Imposto il nodo con chiave 3 come eliminato ---------------> alb2.setDeleted(node3)"
+    print "Associo alla variabile node3 il nodo dell'albero con chiave 9 ---------------> node3 = alb2.searchNode(3)"
+    print "\nImposto il nodo con chiave 3 come eliminato ---------------> alb2.setDeleted(node3)"
     alb2.setDeleted(node3)
-    print "Inserisco un nuovo elemento con chiave 3 e valore 200 ---------------> alb2.insertLazyControl(3, 200)"
+    print "\nInserisco un nuovo elemento con chiave 3 e valore 200 ---------------> alb2.insertLazyControl(3, 200)"
     alb2.insertLazyControl(3, 200)
-    print "Qual'è il valore del nuovo nodo, nella posizione del precedente? ------- alb2.value(node3) -------->", alb2.value(node3)
-    print "\nAlbero con valore sostituito:"
+    print "\nQual'è il valore del nuovo nodo, nella posizione del precedente? ------- alb2.value(node3) -------->", alb2.value(node3)
+    print "\nAlbero con valore sostituito:\n"
     alb2.tree.stampa()
     node4 = alb2.searchNode(4)
     print "\nAssocio alla variabile node4 il nodo dell'albero con chiave 4 ---------------> node4 = alb2.searchNode(4)"
-    print "Il nodo con chiave 4 è segnato come eliminato? ------- alb2.isDeletedOr(node4) --------> ", alb2.isDeletedOr(node4)
-    print "Inserisco un nuovo elemento con chiave 4 e valore 157 ---------------> alb2.insertLazyControl(4, 157)"
+    print "\nIl nodo con chiave 4 è segnato come eliminato? ------- alb2.isDeletedOr(node4) --------> ", alb2.isDeletedOr(node4)
+    print "\nInserisco un nuovo elemento con chiave 4 e valore 157 ---------------> alb2.insertLazyControl(4, 157)"
     alb2.insertLazyControl(4, 157)
-    print "\nAlbero con nuovo elemento inserito:"
+    print "\nAlbero con nuovo elemento inserito:\n"
     alb2.tree.stampa()
-    print "\n                <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Benchmark Tempo >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>          \n"
+    print "\n\n\n\n\n\n<<<<<<<<<<<<<<<<<<<< Benchmark Tempo >>>>>>>>>>>>>>>>>>>>\n"
 
 if __name__ == "__main__":
 
     dictLazyGUI()
-    dictLazyBench(10000)
-    dictLazyBench(100000)
-    dictLazyBench(1000000)
+    dictLazyBench(100)
+    dictLazyBench(200)
+    dictLazyBench(300)
 
 
