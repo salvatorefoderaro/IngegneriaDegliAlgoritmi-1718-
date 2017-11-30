@@ -45,11 +45,10 @@ Dunque le operazioni di un **Binary Search Tree con Lazy Deletion**, implementat
 
 ### Tempo di esecuzione sperimentale
 
-- Tempo espresso in secondi
-- \# di esecuzioni della funzione con input random
+- \# di esecuzioni della funzione (sorgente disponibile in **demoProgetto.py**)
 
-|  | 10.000 | 100.000 | 1.000.000 |
+|  | \#10.000 | \#100.000 | \#1.000.000 |
 |-------------------|--------|--------|--------|
-| boolDeleteLazy | 0.58 | 0.54 | 0.96 |
-| lazySearch | 7.93 | 7.50 | 12.58 |
-| insertLazyControl | 100.24 | 94.59 | 161.88 |
+| boolDeleteLazy | 0.58s | 0.54s | 0.96s |
+| lazySearch | 7.93s | 7.50s | 12.58s |
+| insertLazyControl | 100.24s | 94.59s | 161.88s |
