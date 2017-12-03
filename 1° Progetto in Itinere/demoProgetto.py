@@ -18,6 +18,8 @@ from sorgenteProgetto import *
 import random
 import time
 
+
+
 def dictLazyBench(n):
     """La funzione mi permette di calcolare il tempo di esecuzione medio delle tre funzioni implementate nel nuovo dizionario"""
     print "\nTempo impiegato con ", n," valori"
@@ -64,7 +66,6 @@ def dictLazyGUI():
     print "\nAssocio alla variabile node il nodo dell'albero con chiave 5 ---------------> node = alb2.searchNode(5)"
     print "\nIl nodo con chiave 5 e' segnato come eliminato? ------- alb2.isDeletedOr(node) --------> ", alb2.isDeletedOr(node)
     print "\nCosa restituisce la funzione boolDeleteLazy(5)? ------- alb2.boolDeleteLazy(5) --------> ", alb2.boolDeleteLazy(5)
-    print "\nIl nodo con chiave 5 e' segnato come eliminato? ------- alb2.isDeletedOr(node) --------> ", alb2.isDeletedOr(node)
     print "\nIl nodo con chiave 5 e' segnato come eliminato? ------- alb2.isDeletedOr(node) --------> ", alb2.isDeletedOr(node)
     print "\nCosa restituisce la funzione boolDeleteLazy(5)? ------- alb2.boolDeleteLazy(5) --------> ", alb2.boolDeleteLazy(5)
     print "\nCosa restituisce la funzione boolDeleteLazy(50)? [Elemento non apparteente all'array] ------- alb2.boolDeleteLazy(50) -------->  ", alb2.boolDeleteLazy(50)
