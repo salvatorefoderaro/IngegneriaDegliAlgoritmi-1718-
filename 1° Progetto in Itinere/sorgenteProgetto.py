@@ -50,7 +50,7 @@ class DictLazy(DictBinaryTree):
             return True
 
     def setValue(self,node,value):
-        # Permette di impostare un valore preciso per un nodo
+        # Permette di impostare il valore per un nodo
         if node == None:
             return None
         node.info[1] = value

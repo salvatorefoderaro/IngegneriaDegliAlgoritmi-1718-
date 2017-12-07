@@ -47,6 +47,6 @@ Dunque, le operazioni di un **Binary Search Tree con Lazy Deletion**, implementa
 
 |  | \#10.000 | \#100.000 | \#1.000.000 |
 |-------------------|--------|--------|--------|
-| boolDeleteLazy | 0.58s | 0.54s | 0.96s |
-| lazySearch | 7.93s | 7.50s | 12.58s |
-| insertLazyControl | 100.24s | 94.59s | 161.88s |
+| boolDeleteLazy | 0.58s | 7.93s | 100.24s |
+| lazySearch | 0.54s | 7.50s | 94.59s |
+| insertLazyControl | 0.96s | 12.58s | 161.88s |
