@@ -4,7 +4,7 @@
     Author: Salvatore Foderaro
     Date created: 16/11/2017
     Modified By: Salvatore Foderaro
-    Date last modified: 30/11/2017
+    Date last modified: 07/12/2017
     Python Version: 2.7.14
 
     Questo modulo implementa le sequenti funzioni:
