@@ -6,6 +6,7 @@ from queue.Queue import CodaArrayList_deque as Queue
 from stack.Stack import PilaArrayList as Stack
 
 from list.DoubleLinkedList import ListaDoppiamenteCollegata as List
+import time
 
 
 class GraphAdjacencyList(GraphBase):
@@ -246,31 +247,27 @@ class GraphAdjacencyList(GraphBase):
 if __name__ == "__main__":
     graph = GraphAdjacencyList()
 
-    graph.print()
 
     # add nodes
     nodes = []
-    for i in range(10):
+    for i in range(100000):
         node = graph.addNode(i)
-        print("Node inserted:", node)
         nodes.append(node)
 
+    for i in range(10000):
+        graph.insertEdge(i, 5*i)
+        graph.insertEdge(i, (5*i)+1)
+        graph.insertEdge(i, (5 * i) + 2)
+        graph.insertEdge(i, (5 * i) + 3)
+        graph.insertEdge(i, (5 * i) + 4)
 
-    graph.insertEdge(1,2)
-    graph.insertEdge(1,3)
-    graph.insertEdge(1,4)
-    graph.insertEdge(2,5)
-    graph.insertEdge(5,6)
-    graph.insertEdge(6,7)
-    graph.insertEdge(5,8)
-    graph.insertEdge(5,9)
-
-    # 1->2->5->(6,8)->6->7
-
-
-    print("Eseguo qualcosa")
     # execute a generic search
-	graph.mediumNode(1)
+    start = time.time()
+    graph.mediumNode(1)
+    end = time.time()
+    elapsed = (end - start)
+    print ("Tempo boolDeleteLazy:", elapsed, "secondi")
+
     """ # execute a BFS
     for node in nodes:
         s = graph.bfs(node.id)

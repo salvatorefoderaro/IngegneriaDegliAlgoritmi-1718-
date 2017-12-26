@@ -465,13 +465,11 @@ class GraphBase(Graph, metaclass=ABCMeta):
                         vertexSet.add(newTreeNode)
                         markedNodes.add(nodeIndex)  # mark as explored
                         newTreeNode.distanza = treeNode.distanza + 1  ### Codici implementati da me e da controllare
-                        print("Il nodo che sto considerando è:", newTreeNode.info, "con distanza:", newTreeNode.distanza)
                         controllo = self.calculateSubNode(newTreeNode.info, newTreeNode.distanza)
                         if controllo > nodeMax[1]:  ### Codici implementati da me e da controllare
                             nodeMax[1] = controllo  ### Codici implementati da me e da controllare
                             nodeMax[0] = newTreeNode  ### Codici implementati da me e da controllare
 
-            print ("Il nodo che è medio per il maggior numero di coppie di nodi è: ", nodeMax[0].info, ", che appare un numero di volte:", nodeMax[1])
 
 
     def calculateSubNode(self, rootId, distanzaNodo):
