@@ -270,8 +270,7 @@ if __name__ == "__main__":
 
     print("Eseguo qualcosa")
     # execute a generic search
-    tree = graph.genericSearchTotal(1)
-
+	graph.mediumNode(1)
     """ # execute a BFS
     for node in nodes:
         s = graph.bfs(node.id)
