@@ -499,14 +499,16 @@ class GraphBase(Graph, metaclass=ABCMeta):
                 allora sarà medio per un numero di nodi pari alla sua distanza dalla radice (o dalla foglia).
                  
                 Se invece il nodo ha un numero inferiore di 'figli in avanti' rispetto ai 'figli all'indietro',
-                allora sarà medio per un numero di nodi pari alla sua distanza dalla foglia.
+                o il contrario, allora sarà medio per un numero di nodi pari alla sua distanza dalla foglia (o alla distanza dalla radice)
             """
 
             if (distanzaFoglia == treeRoot.distanza):
-                treeRoot.medium = treeRoot.medium + treeRoot.distanza
+                treeRoot.medium = treeRoot.medium + distanzaFoglia
 
             elif ((distanzaFoglia < treeRoot.distanza) and (treeRoot.distanza > 0)):
                 treeRoot.medium = treeRoot.medium + distanzaFoglia
+            elif ((distanzaFoglia > treeRoot.distanza) and (treeRoot.distanza > 0)):
+                treeRoot.medium = treeRoot.medium + treeRoot.distanza
 
             treeRoot = treeRoot.father # Accedo al nodo successivo nell'albero
 
