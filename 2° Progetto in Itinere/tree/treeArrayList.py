@@ -29,7 +29,7 @@ class TreeArrayList:
         
         node.father = None
         return TreeArrayList(node)
-    
+
     def DFS(self):
         res = []     
         stack = PilaArrayList()
