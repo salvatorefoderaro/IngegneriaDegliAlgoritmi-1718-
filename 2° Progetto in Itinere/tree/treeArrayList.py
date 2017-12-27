@@ -5,9 +5,9 @@ class TreeArrayListNode:
     def __init__(self, info, distanza = 0, medium = 0):
         self.info = info
         self.father = None
-        self.distanza = distanza
+        self.distanza = distanza # Campo aggiunto
         self.sons = []
-        self.medium = medium
+        self.medium = medium # Campo aggiunto
 
 class TreeArrayList:
 

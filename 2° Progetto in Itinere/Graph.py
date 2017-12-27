@@ -436,8 +436,6 @@ class GraphBase(Graph, metaclass=ABCMeta):
 
         return dfs_nodes
 
-    """ Codice mio """
-
     def mediumNode(self, rootId):
 
         """
@@ -543,9 +541,6 @@ class GraphBase(Graph, metaclass=ABCMeta):
             return 0  # Se nessun nodo è medio almeno una volta, restituisco 0
         else:
             return nodeMax  # Restituisco l'ID del nodo
-
-    """ Fine codice mio """
-
 
 
     @abstractmethod

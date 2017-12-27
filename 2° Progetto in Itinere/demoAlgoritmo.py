@@ -7,7 +7,7 @@ def demoProgetto(numeroNodi, numeroArchi, strutturaDati):
     """
     :param numeroNodi:
     :param numeroArchi:
-    :param strutturaDati:
+    :param strutturaDati: GraphAdjacencyList, GraphAdjacencyMatrix, GraphIncidenceList
     :return:
     """
 
