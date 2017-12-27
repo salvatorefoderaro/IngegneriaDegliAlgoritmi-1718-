@@ -1,5 +1,5 @@
-from graph.Graph import GraphBase
-from graph.base import Edge, Node
+from Graph import GraphBase
+from base import Edge, Node
 
 
 class GraphAdjacencyMatrix(GraphBase):

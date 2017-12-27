@@ -245,39 +245,19 @@ class GraphAdjacencyList(GraphBase):
 
 
 if __name__ == "__main__":
-    graph = GraphAdjacencyList()
 
+
+    graph = GraphAdjacencyList()
 
     # add nodes
     nodes = []
-    for i in range(100000):
+    for i in range(101):
         node = graph.addNode(i)
         nodes.append(node)
 
-    for i in range(10000):
-        graph.insertEdge(i, 5*i)
-        graph.insertEdge(i, (5*i)+1)
-        graph.insertEdge(i, (5 * i) + 2)
-        graph.insertEdge(i, (5 * i) + 3)
-        graph.insertEdge(i, (5 * i) + 4)
+    for i in range(101):
+        graph.insertEdge(2*i,(2*i)+1)
 
-    # execute a generic search
-    start = time.time()
-    graph.mediumNode(1)
-    end = time.time()
-    elapsed = (end - start)
-    print ("Tempo boolDeleteLazy:", elapsed, "secondi")
 
-    """ # execute a BFS
-    for node in nodes:
-        s = graph.bfs(node.id)
-        print("BFS with root {}: {}".format(node.id,
-                                               [str(item) for item in s]))
 
-    # execute a DFS
-    for node in nodes:
-        print(node.distanza)
-        print("DFS with root {}: {}".format(node.id,
-                                               [str(item) for item in s]))
-        print (node)"""
-
+    graph.mediumNodeBack(0)

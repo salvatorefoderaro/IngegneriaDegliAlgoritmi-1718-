@@ -438,77 +438,80 @@ class GraphBase(Graph, metaclass=ABCMeta):
 
     """ CODICE MIO """
 
-    def mediumNode(self, rootId):
-            """
-            Execute a generic search in the graph starting from the specified node.
-            :param rootId: the root node ID (integer).
-            :return: the generic exploration tree.
-            """
-            if rootId not in self.nodes:
-                return None
-
-            treeNode = TreeNode(rootId)
-            tree = Tree(treeNode)
-            vertexSet = {treeNode}  # nodes to explore
-            markedNodes = {rootId}  # nodes already explored
-            j = 0
-            nodeMax = [0, 0]
-
-            while len(vertexSet) > 0:  # while there are nodes to explore ...
-                treeNode = vertexSet.pop()  # get an unexplored node
-                adjacentNodes = self.getAdj(treeNode.info)
-                for nodeIndex in adjacentNodes:
-                    if nodeIndex not in markedNodes:  # if not explored ...
-                        newTreeNode = TreeNode(nodeIndex)
-                        newTreeNode.father = treeNode
-                        treeNode.sons.append(newTreeNode)
-                        vertexSet.add(newTreeNode)
-                        markedNodes.add(nodeIndex)  # mark as explored
-                        newTreeNode.distanza = treeNode.distanza + 1  ### Codici implementati da me e da controllare
-                        controllo = self.calculateSubNode(newTreeNode.info, newTreeNode.distanza)
-                        if controllo > nodeMax[1]:  ### Codici implementati da me e da controllare
-                            nodeMax[1] = controllo  ### Codici implementati da me e da controllare
-                            nodeMax[0] = newTreeNode  ### Codici implementati da me e da controllare
-
-
-
-    def calculateSubNode(self, rootId, distanzaNodo):
+    def mediumNodeBack(self, rootId):
         """
-        Execute a generic search in the graph starting from the specified node.
-        :param rootId: the root node ID (integer).
-        :return: the generic exploration tree.
+        Questa funzione, dato in input un nodo di un Grafo non orientato ed aciclico, restituisce il nodo che risulta
+        medio il maggior numero di volte.
+
+        :param self: Grafo
+        :param rootId:  ID del nodo dal quale partire
+        :return: ID del nodo che risulta medio il maggior numero di volte (0 nel caso in cui nessun nodo)
         """
+
         if rootId not in self.nodes:
-            return 0
-
-        i = 0
+            return None
 
         treeNode = TreeNode(rootId)
         tree = Tree(treeNode)
-        vertexSet = {treeNode} # nodes to explore
-        markedNodes = {rootId} # nodes already explored
+        vertexSet = {treeNode}  # nodes to explore
+        markedNodes = {rootId}  # nodes already explored
 
-        while len(vertexSet) > 0: # while there are nodes to explore ...
-            treeNode = vertexSet.pop() # get an unexplored node
+        while len(vertexSet) > 0:  # while there are nodes to explore ...
+            treeNode = vertexSet.pop()  # Prendi in nodo che non stato ancora visitato
             adjacentNodes = self.getAdj(treeNode.info)
 
-            if treeNode.distanza == distanzaNodo:
-                i = i + treeNode.distanza
+            if not adjacentNodes:
+                self.backToRoot(treeNode, treeNode.distanza, tree)
 
-            elif not adjacentNodes:
-                i = i + treeNode.distanza
+            for nodeIndex in adjacentNodes:
+                if nodeIndex not in markedNodes:  # Se il nodo non è stato esplorato...
+                    newTreeNode = TreeNode(nodeIndex)
+                    newTreeNode.father = treeNode
+                    treeNode.sons.append(newTreeNode)
+                    vertexSet.add(newTreeNode)
+                    markedNodes.add(nodeIndex)  # Segno il nodo come esplorato
+                    newTreeNode.distanza = treeNode.distanza + 1  # Incremento la distanza del nodo
+        return self.check(tree)
 
-            else:
-                for nodeIndex in adjacentNodes:
-                    if nodeIndex not in markedNodes: # if not explored ...
-                        newTreeNode = TreeNode(nodeIndex)
-                        newTreeNode.father = treeNode
-                        newTreeNode.distanza = treeNode.distanza + 1
-                        treeNode.sons.append(newTreeNode)
-                        vertexSet.add(newTreeNode)
-                        markedNodes.add(nodeIndex) # mark as explored
+    def backToRoot(self, treeRoot, rootDistance, tree):
 
-        return i
+        if (treeRoot.father is None):
+            treeRoot = treeRoot.father
+
+
+        while ((rootDistance - treeRoot.distanza) < rootDistance):
+            distanzaFoglia = rootDistance - treeRoot.distanza
+            if (distanzaFoglia == treeRoot.distanza):
+                treeRoot.medium = treeRoot.medium + treeRoot.distanza
+
+            elif ((distanzaFoglia < treeRoot.distanza) and (treeRoot.distanza > 0)):
+                treeRoot.medium = treeRoot.medium + distanzaFoglia
+            treeRoot = treeRoot.father
+
+
+    def check(self, tree):
+        nodeMax = [0]
+        max = 0
+        q = Queue()
+        if tree.root is not None:
+            q.enqueue(tree.root)
+        while not q.isEmpty():
+            current = q.dequeue()
+            for s in current.sons:
+                controllo = s.medium
+                if controllo == max:
+                    nodeMax.append(s.info)
+                elif controllo > max:  ### Codici implementati da me e da controllare
+                    nodeMax = [0]
+                    max = controllo  ### Codici implementati da me e da controllare
+                    nodeMax[0] = s.info  ### Codici implementati da me e da controllare
+                q.enqueue(s)
+        if nodeMax[0] == 0:
+            return 0  # Se nessun nodo è medio almeno una volta, restituisco 0
+        else:
+            return nodeMax  # Restituisco l'ID del nodo
+
+
 
     @abstractmethod
     def print(self):
@@ -520,3 +523,4 @@ class GraphBase(Graph, metaclass=ABCMeta):
 
 if __name__ == "__main__":
     graph = GraphBase() # error due to the instantiation of an abstract class
+

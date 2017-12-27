@@ -2,11 +2,12 @@ from stack.Stack import PilaArrayList
 from queue.Queue import CodaArrayList_deque
 
 class TreeArrayListNode:
-    def __init__(self, info, distanza = 0):
+    def __init__(self, info, distanza = 0, medium = 0):
         self.info = info
         self.father = None
         self.distanza = distanza
         self.sons = []
+        self.medium = medium
 
 class TreeArrayList:
 
