@@ -1,4 +1,4 @@
-    def mediumNode(self, rootId):
+    def mediumNodeOld(self, rootId):
             """
             Execute a generic search in the graph starting from the specified node.
             :param rootId: the root node ID (integer).

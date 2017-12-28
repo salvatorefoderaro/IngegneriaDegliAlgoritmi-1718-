@@ -493,25 +493,87 @@ class GraphBase(Graph, metaclass=ABCMeta):
         #    treeRoot = treeRoot.father
 
         while ((rootDistance - treeRoot.distanza) < rootDistance): # Controllo che il nodo considerato non sia la radice
-            distanzaFoglia = rootDistance - treeRoot.distanza
 
-            """ Se il nodo ha lo stesso numero di 'figli in avanti' e 'figli all'indietro',
-                allora sarà medio per un numero di nodi pari alla sua distanza dalla radice (o dalla foglia).
-                 
-                Se invece il nodo ha un numero inferiore di 'figli in avanti' rispetto ai 'figli all'indietro',
-                o il contrario, allora sarà medio per un numero di nodi pari alla sua distanza dalla foglia (o alla distanza dalla radice)
+                treeRoot.foglie.append(rootDistance) # Memorizzo la distanza del nodo dall'ultima foglia
+
+    def mediumNodeOld(self, rootId):
             """
+            Execute a generic search in the graph starting from the specified node.
+            :param rootId: the root node ID (integer).
+            :return: the generic exploration tree.
+            """
+            if rootId not in self.nodes:
+                return None
 
-            if (distanzaFoglia == treeRoot.distanza):
-                treeRoot.medium = treeRoot.medium + distanzaFoglia
+            treeNode = TreeNode(rootId)
+            tree = Tree(treeNode)
+            vertexSet = {treeNode}  # nodes to explore
+            markedNodes = {rootId}  # nodes already explored
+            j = 0
+            nodeMax = [0]
+            max = 0
 
-            elif ((distanzaFoglia < treeRoot.distanza) and (treeRoot.distanza > 0)):
-                treeRoot.medium = treeRoot.medium + distanzaFoglia
-            elif ((distanzaFoglia > treeRoot.distanza) and (treeRoot.distanza > 0)):
-                treeRoot.medium = treeRoot.medium + treeRoot.distanza
+            while len(vertexSet) > 0:  # while there are nodes to explore ...
+                treeNode = vertexSet.pop()  # get an unexplored node
+                adjacentNodes = self.getAdj(treeNode.info)
+                for nodeIndex in adjacentNodes:
+                    if nodeIndex not in markedNodes:  # if not explored ...
+                        newTreeNode = TreeNode(nodeIndex)
+                        newTreeNode.father = treeNode
+                        treeNode.sons.append(newTreeNode)
+                        vertexSet.add(newTreeNode)
+                        markedNodes.add(nodeIndex)  # mark as explored
+                        newTreeNode.distanza = treeNode.distanza + 1  ### Codici implementati da me e da controllare
+                        controllo = self.calculateSubNode(newTreeNode.info, newTreeNode.distanza)
+                        if controllo == max:
+                            nodeMax.append(newTreeNode.info)
+                        elif controllo > max:  ### Codici implementati da me e da controllare
+                            nodeMax = [0]
+                            max = controllo  ### Codici implementati da me e da controllare
+                            nodeMax[0] = newTreeNode.info  ### Codici implementati da me e da controllare
+            if nodeMax[0] == 0:
+                return 0  # Se nessun nodo è medio almeno una volta, restituisco 0
+            else:
+                return nodeMax  # Restituisco l'ID del nodo
 
-            treeRoot = treeRoot.father # Accedo al nodo successivo nell'albero
 
+    def calculateSubNode(self, rootId, distanzaNodo):
+        """
+        Execute a generic search in the graph starting from the specified node.
+        :param rootId: the root node ID (integer).
+        :return: the generic exploration tree.
+        """
+        if rootId not in self.nodes:
+            return 0
+
+        i = 0
+
+        treeNode = TreeNode(rootId)
+        tree = Tree(treeNode)
+        vertexSet = {treeNode} # nodes to explore
+        markedNodes = {rootId} # nodes already explored
+
+        while len(vertexSet) > 0: # while there are nodes to explore ...
+            treeNode = vertexSet.pop() # get an unexplored node
+            adjacentNodes = self.getAdj(treeNode.info)
+
+            if treeNode.distanza == distanzaNodo:
+                i = i + treeNode.distanza
+
+            elif not adjacentNodes:
+                i = i + treeNode.distanza
+
+            else:
+                for nodeIndex in adjacentNodes:
+                    if nodeIndex not in markedNodes: # if not explored ...
+                        newTreeNode = TreeNode(nodeIndex)
+                        newTreeNode.father = treeNode
+                        newTreeNode.distanza = treeNode.distanza + 1
+                        treeNode.sons.append(newTreeNode)
+                        vertexSet.add(newTreeNode)
+                        markedNodes.add(nodeIndex) # mark as explored
+
+        return i
 
     def getMaxMedium(self, tree):
 
@@ -531,7 +593,13 @@ class GraphBase(Graph, metaclass=ABCMeta):
         while not q.isEmpty():
             current = q.dequeue()
             for s in current.sons:
-                controllo = s.medium # Per ogni nodo considero il valore del campo 'medium'
+                controllo = 0
+                k = current.distanza
+                for j in current.foglie:
+                    if ( k>0 ) and (k < j):
+                        controllo = controllo + k
+                    elif ( k>0 ) and (k == j):
+                        controllo = controllo + k
                 if controllo == max: # Se il nodo ha il campo 'medium' uguale al nodo attualmente massimo
                     nodeMax.append(s.info) # aggiungo il nodo che sto considerando alla lista dei nodi
                 elif controllo > max: # Se invece il valore del nodo che sto considerando è superiore a quello dell'attuale massimo
