@@ -3,7 +3,7 @@ from Graph_AdjacencyMatrix import GraphAdjacencyMatrix
 from Graph_IncidenceList import GraphIncidenceList
 import time
 
-def demoProgetto(strutturaDati, numeroEsecuzioni):
+def demoProgetto(strutturaDati):
     """
     :param numeroNodi:
     :param numeroArchi:
@@ -15,28 +15,23 @@ def demoProgetto(strutturaDati, numeroEsecuzioni):
 
     nodes = []
 
-    for i in range(1, numeroEsecuzioni):
+    for i in range(1, 100000):
         node = graph.addNode(i)
         nodes.append(node)
 
-    for j in range(1, numeroEsecuzioni):
-        graph.insertEdge(2,(j*2))
-        graph.insertEdge(2,(j*2)+1)
+    for j in range(1, 64):
+        graph.insertEdge(j,(j*2))
+        graph.insertEdge(j,(j*2)+1)
 
-    print("Numero di esecuzioni: ", numeroEsecuzioni)
+
+    print(graph.mediumNode(1))
+    """
     start = time.time()
-    graph.mediumNode(1)
+    graph.genericSearch(1)
     end = time.time()
     print(end - start)
-
+    """
 if __name__ == "__main__":
-    esecuzioni = [0, 5, 10, 50, 75, 100, 250, 500, 1000, 2500, 5000, 10000]
-    strutture = [GraphAdjacencyList, GraphIncidenceList]
-    for k in strutture:
-        print("\n\n Esecuzione con struttura ",k,"\n")
-        for m in esecuzioni:
-            demoProgetto(k , m)
-    esecuzioniMatrice = [0, 5, 10, 50, 75, 100, 250, 500, 1000, 2500, 5000, 10000]
-    for h in esecuzioniMatrice:
-        print("\n\n Esecuzione con struttura matrice \n\n")
-        demoProgetto(GraphAdjacencyMatrix,h)
+
+
+    demoProgetto(GraphAdjacencyList)

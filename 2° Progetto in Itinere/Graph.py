@@ -1,4 +1,5 @@
 from abc import ABCMeta, abstractmethod
+
 from base import Node
 from tree.treeArrayList import TreeArrayListNode as TreeNode
 from tree.treeArrayList import TreeArrayList as Tree
@@ -49,7 +50,13 @@ class Graph:
         """
         raise NotImplementedError("You should have implemented this method!")
 
-
+    def getNode(self, id):
+        """
+        Return the node, if exists.
+        :param id: the node ID (integer).
+        :return: the node, if exists; None, otherwise.
+        """
+        raise NotImplementedError("You should have implemented this method!")
 
     def getNodes(self):
         """
@@ -180,7 +187,14 @@ class GraphBase(Graph, metaclass=ABCMeta):
         """
         ...
 
-
+    @abstractmethod
+    def getNode(self, id):
+        """
+        Return the node, if exists.
+        :param id: the node ID (integer).
+        :return: the node, if exists; None, otherwise.
+        """
+        ...
 
     @abstractmethod
     def getNodes(self):
@@ -258,52 +272,14 @@ class GraphBase(Graph, metaclass=ABCMeta):
         """
         ...
 
-    def genericSearchTotal(self, rootId):
-            """
-            Execute a generic search in the graph starting from the specified node.
-            :param rootId: the root node ID (integer).
-            :return: the generic exploration tree.
-            """
-            if rootId not in self.nodes:
-                return None
-
-            treeNode = TreeNode(rootId)
-            tree = Tree(treeNode)
-            vertexSet = {treeNode}  # nodes to explore
-            markedNodes = {rootId}  # nodes already explored
-            j = 0
-            nodeMax = [0, 0]
-
-            while len(vertexSet) > 0:  # while there are nodes to explore ...
-                treeNode = vertexSet.pop()  # get an unexplored node
-                adjacentNodes = self.getAdj(treeNode.info)
-                for nodeIndex in adjacentNodes:
-                    if nodeIndex not in markedNodes:  # if not explored ...
-                        newTreeNode = TreeNode(nodeIndex)
-                        newTreeNode.father = treeNode
-                        treeNode.sons.append(newTreeNode)
-                        vertexSet.add(newTreeNode)
-                        markedNodes.add(nodeIndex)  # mark as explored
-                        newTreeNode.distanza = treeNode.distanza + 1  ### Codici implementati da me e da controllare
-                        print("Il nodo che sto considerando è:", newTreeNode.info, "con distanza:", newTreeNode.distanza)
-                        controllo = self.genericSearch(newTreeNode.info, newTreeNode.distanza)
-                        if controllo > nodeMax[1]:  ### Codici implementati da me e da controllare
-                            nodeMax[1] = controllo  ### Codici implementati da me e da controllare
-                            nodeMax[0] = newTreeNode  ### Codici implementati da me e da controllare
-
-            print ("Il nodo che è medio per il maggior numero di coppie di nodi è: ", nodeMax[0].info, ", che appare un numero di volte:", nodeMax[1])
-
-
-    def genericSearch(self, rootId, distanzaNodo):
+    def genericSearch(self, rootId):
         """
         Execute a generic search in the graph starting from the specified node.
         :param rootId: the root node ID (integer).
         :return: the generic exploration tree.
         """
         if rootId not in self.nodes:
-            return 0
-
-        i = 0
+            return None
 
         treeNode = TreeNode(rootId)
         tree = Tree(treeNode)
@@ -313,24 +289,14 @@ class GraphBase(Graph, metaclass=ABCMeta):
         while len(vertexSet) > 0: # while there are nodes to explore ...
             treeNode = vertexSet.pop() # get an unexplored node
             adjacentNodes = self.getAdj(treeNode.info)
-
-            if treeNode.distanza == distanzaNodo:
-                i = i + treeNode.distanza
-
-            elif not adjacentNodes:
-                i = i + treeNode.distanza
-
-            else:
-                for nodeIndex in adjacentNodes:
-                    if nodeIndex not in markedNodes: # if not explored ...
-                        newTreeNode = TreeNode(nodeIndex)
-                        newTreeNode.father = treeNode
-                        newTreeNode.distanza = treeNode.distanza + 1
-                        treeNode.sons.append(newTreeNode)
-                        vertexSet.add(newTreeNode)
-                        markedNodes.add(nodeIndex) # mark as explored
-
-        return i
+            for nodeIndex in adjacentNodes:
+                if nodeIndex not in markedNodes: # if not explored ...
+                    newTreeNode = TreeNode(nodeIndex)
+                    newTreeNode.father = treeNode
+                    treeNode.sons.append(newTreeNode)
+                    vertexSet.add(newTreeNode)
+                    markedNodes.add(nodeIndex) # mark as explored
+        return tree
 
     def bfs(self, rootId):
         """
@@ -341,7 +307,6 @@ class GraphBase(Graph, metaclass=ABCMeta):
         """
         # if the root does not exists, return None
         if rootId not in self.nodes:
-            print("Stampa...")
             return None
 
         # BFS nodes initialization
@@ -352,58 +317,17 @@ class GraphBase(Graph, metaclass=ABCMeta):
         q.enqueue(rootId)
 
         explored = {rootId} # nodes already explored
-        print("Stampa...")
+
         while not q.isEmpty(): # while there are nodes to explore ...
             node = q.dequeue() # get the node from the queue
             explored.add(node) # mark the node as explored
             # add all adjacent unexplored nodes to the queue
             for adj_node in self.getAdj(node):
-                adj_node.distanza = node.distanza + 1
-                print("La distanza del nodo è:", adj_node.distanza)
                 if adj_node not in explored:
                     q.enqueue(adj_node)
             bfs_nodes.append(node)
 
-        return node.distanza
-
-    """
-
-    Root ID e
-
-    """
-
-    def dfsTest(self, rootId):
-        """
-        Execute a Depth-First Search (DFS) in the graph starting from the
-        specified node.
-        :param rootId: the root node ID (integer).
-        :return: the DFS list of nodes.
-        """
-        # if the root does not exists, return None
-        if rootId not in self.nodes:
-            return None
-
-        # DFS nodes initialization
-        dfs_nodes = []
-
-        # queue initialization
-        s = Stack()
-        s.push(rootId)
-
-        explored = {rootId}  # nodes already explored
-        distanze = []
-
-
-        while not s.isEmpty():  # while there are nodes to explore ...
-            node = s.pop()  # get the node from the stack
-            explored.add(node)  # mark the node as explored
-            # add all adjacent unexplored nodes to the stack
-            for adj_node in self.getAdj(node):
-                if adj_node not in explored:
-                    s.push(adj_node)
-            dfs_nodes.append(node)
-
-        return dfs_nodes
+        return bfs_nodes
 
     def dfs(self, rootId):
         """
@@ -436,53 +360,58 @@ class GraphBase(Graph, metaclass=ABCMeta):
 
         return dfs_nodes
 
+    @abstractmethod
+    def print(self):
+        """
+        Print the graph.
+        :return: void.
+        """
+        ...
 
     def mediumNode(self, rootId):
-            """
-            Execute a generic search in the graph starting from the specified node.
-            :param rootId: the root node ID (integer).
-            :return: the generic exploration tree.
-            """
-            if rootId not in self.nodes:
-                return None
+        """
+        :param rootId:
+        :return:
+        """
+        if rootId not in self.nodes:
+            return None
 
-            treeNode = TreeNode(rootId)
-            tree = Tree(treeNode)
-            vertexSet = {treeNode}  # nodes to explore
-            markedNodes = {rootId}  # nodes already explored
-            j = 0
-            nodeMax = [0]
-            max = 0
+        treeNode = TreeNode(rootId)
+        # tree = Tree(treeNode)
+        vertexSet = {treeNode}  # nodes to explore
+        markedNodes = {rootId}  # nodes already explored
+        j = 0
+        nodeMax = [0]
+        max = 0
 
-            while len(vertexSet) > 0:  # while there are nodes to explore ...
-                treeNode = vertexSet.pop()  # get an unexplored node
-                adjacentNodes = self.getAdj(treeNode.info)
-                for nodeIndex in adjacentNodes:
-                    if nodeIndex not in markedNodes:  # if not explored ...
-                        newTreeNode = TreeNode(nodeIndex)
-                        newTreeNode.father = treeNode
-                        treeNode.sons.append(newTreeNode)
-                        vertexSet.add(newTreeNode)
-                        markedNodes.add(nodeIndex)  # mark as explored
-                        newTreeNode.distanza = treeNode.distanza + 1  ### Codici implementati da me e da controllare
-                        controllo = self.calculateSubNode(newTreeNode.info, newTreeNode.distanza)
-                        if controllo == max:
-                            nodeMax.append(newTreeNode.info)
-                        elif controllo > max:  ### Codici implementati da me e da controllare
-                            nodeMax = [0]
-                            max = controllo  ### Codici implementati da me e da controllare
-                            nodeMax[0] = newTreeNode.info  ### Codici implementati da me e da controllare
-            if nodeMax[0] == 0:
-                return 0  # Se nessun nodo è medio almeno una volta, restituisco 0
-            else:
-                return nodeMax  # Restituisco l'ID del nodo
-
+        while len(vertexSet) > 0:  # while there are nodes to explore ...
+            treeNode = vertexSet.pop()  # get an unexplored node
+            adjacentNodes = self.getAdj(treeNode.info)
+            for nodeIndex in adjacentNodes:
+                if nodeIndex not in markedNodes:  # if not explored ...
+                    newTreeNode = TreeNode(nodeIndex)
+                    newTreeNode.father = treeNode
+                    treeNode.sons.append(newTreeNode)
+                    vertexSet.add(newTreeNode)
+                    markedNodes.add(nodeIndex)  # mark as explored
+                    newTreeNode.distanza = treeNode.distanza + 1  ### Codici implementati da me e da controllare
+                    controllo = self.calculateSubNode(newTreeNode.info, newTreeNode.distanza)
+                    if controllo == max:
+                        nodeMax.append(newTreeNode.info)
+                    elif controllo > max:  ### Codici implementati da me e da controllare
+                        nodeMax = [0]
+                        max = controllo  ### Codici implementati da me e da controllare
+                        nodeMax[0] = newTreeNode.info  ### Codici implementati da me e da controllare
+        if nodeMax[0] == 0:
+            return 0  # Se nessun nodo è medio almeno una volta, restituisco 0
+        else:
+            return nodeMax  # Restituisco l'ID del nodo
 
     def calculateSubNode(self, rootId, distanzaNodo):
         """
-        Execute a generic search in the graph starting from the specified node.
-        :param rootId: the root node ID (integer).
-        :return: the generic exploration tree.
+        :param rootId:
+        :param distanzaNodo:
+        :return:
         """
         if rootId not in self.nodes:
             return 0
@@ -490,12 +419,13 @@ class GraphBase(Graph, metaclass=ABCMeta):
         i = 0
 
         treeNode = TreeNode(rootId)
-        tree = Tree(treeNode)
-        vertexSet = {treeNode} # nodes to explore
-        markedNodes = {rootId} # nodes already explored
+        # tree = Tree(treeNode)
+        vertexSet = {treeNode}  # nodes to explore
+        markedNodes = {rootId}  # nodes already explored
 
-        while len(vertexSet) > 0: # while there are nodes to explore ...
-            treeNode = vertexSet.pop() # get an unexplored node
+        while len(vertexSet) > 0:  # while there are nodes to explore ...
+
+            treeNode = vertexSet.pop()  # get an unexplored node
             adjacentNodes = self.getAdj(treeNode.info)
 
             if treeNode.distanza == distanzaNodo:
@@ -506,25 +436,15 @@ class GraphBase(Graph, metaclass=ABCMeta):
 
             else:
                 for nodeIndex in adjacentNodes:
-                    if nodeIndex not in markedNodes: # if not explored ...
+                    if nodeIndex not in markedNodes:  # if not explored ...
                         newTreeNode = TreeNode(nodeIndex)
                         newTreeNode.father = treeNode
                         newTreeNode.distanza = treeNode.distanza + 1
                         treeNode.sons.append(newTreeNode)
                         vertexSet.add(newTreeNode)
-                        markedNodes.add(nodeIndex) # mark as explored
-
+                        markedNodes.add(nodeIndex)  # mark as explored
         return i
 
-
-
-    @abstractmethod
-    def print(self):
-        """
-        Print the graph.
-        :return: void.
-        """
-        ...
 
 if __name__ == "__main__":
     graph = GraphBase() # error due to the instantiation of an abstract class

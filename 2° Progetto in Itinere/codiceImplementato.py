@@ -1,14 +1,13 @@
-def mediumNodeOld(self, rootId):
+def mediumNode(self, rootId):
     """
-    Execute a generic search in the graph starting from the specified node.
-    :param rootId: the root node ID (integer).
-    :return: the generic exploration tree.
+    :param rootId:
+    :return:
     """
     if rootId not in self.nodes:
         return None
 
     treeNode = TreeNode(rootId)
-    tree = Tree(treeNode)
+    # tree = Tree(treeNode)
     vertexSet = {treeNode}  # nodes to explore
     markedNodes = {rootId}  # nodes already explored
     j = 0
@@ -41,9 +40,9 @@ def mediumNodeOld(self, rootId):
 
 def calculateSubNode(self, rootId, distanzaNodo):
     """
-    Execute a generic search in the graph starting from the specified node.
-    :param rootId: the root node ID (integer).
-    :return: the generic exploration tree.
+    :param rootId:
+    :param distanzaNodo:
+    :return:
     """
     if rootId not in self.nodes:
         return 0
@@ -51,11 +50,12 @@ def calculateSubNode(self, rootId, distanzaNodo):
     i = 0
 
     treeNode = TreeNode(rootId)
-    tree = Tree(treeNode)
+    # tree = Tree(treeNode)
     vertexSet = {treeNode}  # nodes to explore
     markedNodes = {rootId}  # nodes already explored
 
     while len(vertexSet) > 0:  # while there are nodes to explore ...
+
         treeNode = vertexSet.pop()  # get an unexplored node
         adjacentNodes = self.getAdj(treeNode.info)
 
@@ -74,5 +74,4 @@ def calculateSubNode(self, rootId, distanzaNodo):
                     treeNode.sons.append(newTreeNode)
                     vertexSet.add(newTreeNode)
                     markedNodes.add(nodeIndex)  # mark as explored
-
     return i
