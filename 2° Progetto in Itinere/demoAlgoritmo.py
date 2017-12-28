@@ -19,18 +19,16 @@ def demoProgetto(strutturaDati):
         node = graph.addNode(i)
         nodes.append(node)
 
-    for j in range(1, 64):
-        graph.insertEdge(j,(j*2))
-        graph.insertEdge(j,(j*2)+1)
+    for j in range(1, 100000):
+        graph.insertEdge(j,j+1)
 
 
-    print(graph.mediumNode(1))
-    """
+
     start = time.time()
-    graph.genericSearch(1)
+    print(graph.mediumNode(1))
     end = time.time()
     print(end - start)
-    """
+    
 if __name__ == "__main__":
 
 
