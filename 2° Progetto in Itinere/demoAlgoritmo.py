@@ -20,31 +20,12 @@ def demoProgetto(strutturaDati, numeroEsecuzioni):
         nodes.append(node)
 
     for j in range(1, numeroEsecuzioni):
-        graph.insertEdge(j,(50*j))
-        graph.insertEdge(j,(50*j)+1)
-        graph.insertEdge(j,(50*j)+1)
-        graph.insertEdge(j,(50*j)+1)
-        graph.insertEdge(j,(50*j)+1)
-        graph.insertEdge(j,(50*j)+1)
-        graph.insertEdge(j,(50*j)+1)
-        graph.insertEdge(j,(50*j)+1)
-        graph.insertEdge(j,(50*j)+1)
-        graph.insertEdge(j,(50*j)+1)
-        graph.insertEdge(j,(50*j)+1)
-
-
-
-
-
-
-
-
-
-
+        graph.insertEdge(2,(j*2))
+        graph.insertEdge(2,(j*2)+1)
 
     print("Numero di esecuzioni: ", numeroEsecuzioni)
     start = time.time()
-    graph.mediumNodeOld(1)
+    graph.mediumNode(1)
     end = time.time()
     print(end - start)
 
