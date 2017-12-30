@@ -1,5 +1,4 @@
-
-###Ingegneria degli algoritmi - AA 2017/2018 - Seconda prova in itinere 
+**Ingegneria degli algoritmi - AA 2017/2018 - Seconda prova in itinere**
 
 **Studenti:** Foderaro Salvatore (0214381), Di Blasi Giorgia (), Menichelli Alberto ()
 
