@@ -10,32 +10,35 @@ def demoProgetto(strutturaDati):
     :param strutturaDati: GraphAdjacencyList, GraphAdjacencyMatrix, GraphIncidenceList
     :return:
     """
-    print("\n\n")
-    valori = [0,5,10,50,75,100, 250, 500, 1000, 2500]
 
-    for k in valori:
-        graph = strutturaDati()
+    graph = strutturaDati()
 
-        nodes = []
-        for i in range(1, k):
-            node = graph.addNode(i)
-            nodes.append(node)
+    nodes = []
+    for i in range(1, 10):
+        node = graph.addNode(i)
+        nodes.append(node)
 
 
-        for j in range(1, k):
-            graph.insertEdge(j, j+1)
+    graph.insertEdge(1,2)
+    graph.insertEdge(2,3)
+    graph.insertEdge(3,4)
+
+    graph.insertEdge(5,6)
+
+    graph.insertEdge(7,8)
+    graph.insertEdge(8,9)
 
 
 
 
-        start = time.time()
-        graph.mediumNode()
-        end = time.time()
-        print(end - start)
+    start = time.time()
+    print("La lista delle radici è:", graph.getRoot())
+    print("I nodi medi sono:", graph.mediumNode())
+    end = time.time()
+    print("Il tempo impiegato è:", end - start)
 
 if __name__ == "__main__":
 
 
-    # demoProgetto(GraphAdjacencyList)
+    demoProgetto(GraphAdjacencyList)
     # demoProgetto(GraphIncidenceList)
-    demoProgetto(GraphAdjacencyMatrix)
