@@ -421,9 +421,8 @@ class GraphBase(Graph, metaclass=ABCMeta):
                         newTreeNode.distanza = treeNode.distanza + 1  # Incrementa la distanza del nodo dalla radice
                         mediumNodo = self.calculateMediumValue(newTreeNode.info,
                                                                newTreeNode.distanza)  # Calcola il numero di volte che il nodo risulta medio
-                        print("mediumNodo è: ", mediumNodo, "mentre Max è:", max)
                         if mediumNodo == max:  # Se il valore corrisponde a quello dell'attuale nodo massimo,
-                            nodeMax.append(newTreeNode.info)  # aggiungi alla lista dei nodi massimi il nodo
+                            nodeMax.append(newTreeNode.info)  # Aggiungo alla lista dei nodi massimi il nodo
                         elif mediumNodo > max:  # Se il valore risulta superiore a quello dell'attuale nodo massimo,
                             nodeMax = [0]  # azzera la lista dei nodi massimi
                             max = mediumNodo  # Imposta il valore del nuovo nodo massimo
@@ -450,6 +449,8 @@ class GraphBase(Graph, metaclass=ABCMeta):
             return 0
 
         i = 0  # Contatore del numero di volte che il nodo risulta medio
+
+        # Eseguo una visita generica prendendo come radice il nodo considerato
 
         treeNode = TreeNode(rootId)  # Creo un nuovo nodo
         vertexSet = {treeNode}  # Nodi da visitare
