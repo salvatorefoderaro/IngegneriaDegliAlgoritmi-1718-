@@ -174,7 +174,7 @@ class GraphBase(Graph, metaclass=ABCMeta):
         :param elem: the node value.
         :return: the create node.
         """
-        newNode = Node(self.nextId, elem)
+        newNode = Node(elem, elem)
         self.nextId += 1
         return newNode
 
@@ -368,7 +368,23 @@ class GraphBase(Graph, metaclass=ABCMeta):
         """
         ...
 
-    def mediumNode(self, rootId):
+    def getRoot(self):
+        """
+        Questa funzione, dato un grafo non orientato ed aciclico, restituisce il nodo che non ha archi entranti.
+        :param self:
+        :return: id del nodo senza archi in entrata
+        """
+        edges = self.getEdges()  # Ottengo la lista degli archi
+        nodes = self.getNodes()  # Ottengo la lista dei nodi
+        listaTeste = []
+        for i in edges:
+            listaTeste.append(i.head)  # Per ogni arco, aggiungo alla lista il nodo di testa
+        for j in nodes:
+            if j.id not in listaTeste:  # Se il nodo che sto considerando non è in lista, allora non ha nessun arco in entrata
+                # Essendo un grafo aciclico non orientato, è unico
+                return j.id  # Restituisco il nodo radice dell'albero
+
+    def mediumNode(self):
         """
         Questa funzione, dato in input l'ID della radice di un albero, restituisce il nodo che risulta medio per il maggior
         numero di volte
@@ -380,29 +396,28 @@ class GraphBase(Graph, metaclass=ABCMeta):
         """
 
         # Come per la visita generica, scorro l'albero ed accedo ad ogni nodo
+        rootId = self.getRoot()
 
-        if rootId not in self.nodes:
+        if rootId not in self.nodes:  # Se il nodo che sto considerando come radice non appartiene al grafo, restituisco None
             return None
 
-        treeNode = TreeNode(rootId)
-        # tree = Tree(treeNode)
-        vertexSet = {treeNode}
-        markedNodes = {rootId}
-        j = 0
-        nodeMax = [0]
-        max = 0
+        treeNode = TreeNode(rootId)  # Creo un nuovo nodo
+        vertexSet = {treeNode}  # Nodi da visitare
+        markedNodes = {rootId}  # Nodi visitati
+        nodeMax = [0]  # Nodo che risulta medio il maggior numero di volte
+        max = 0  # Numero di volte che nodeMax risulta medio
 
-        while len(vertexSet) > 0:
-            treeNode = vertexSet.pop()
-            adjacentNodes = self.getAdj(treeNode.info)
-            for nodeIndex in adjacentNodes:
-                if nodeIndex not in markedNodes:
-                    newTreeNode = TreeNode(nodeIndex)
-                    newTreeNode.father = treeNode
-                    treeNode.sons.append(newTreeNode)
-                    vertexSet.add(newTreeNode)
-                    markedNodes.add(nodeIndex)
-                    newTreeNode.distanza = treeNode.distanza + 1  # Incrementa la distanza del nodo
+        while len(vertexSet) > 0:  # Fin quando ho dei nodi ancora non esplorati,
+            treeNode = vertexSet.pop()  # considero un nodo che devo ancora visitare
+            adjacentNodes = self.getAdj(treeNode.info)  # Ottengo i nodi adiacenti al nodo
+            for nodeIndex in adjacentNodes:  # Per ogni nodo adiacente,
+                if nodeIndex not in markedNodes:  # controllo se risulta visitato o meno. In caso non risulti visitato:
+                    newTreeNode = TreeNode(nodeIndex)  # Creo un nuovo nodo
+                    newTreeNode.father = treeNode  # Assegno il nodo come figlio del nodo che sto considerando
+                    treeNode.sons.append(newTreeNode)  # Aggiungo il nodo alla lista dei figli del nodo padre
+                    vertexSet.add(newTreeNode)  # Aggiungo il nodo alla lista dei nodi da visitare
+                    markedNodes.add(nodeIndex)  # Aggiungo il nodo alla lista dei nodi visitati
+                    newTreeNode.distanza = treeNode.distanza + 1  # Incrementa la distanza del nodo dalla radice
                     mediumNodo = self.calculateMediumValue(newTreeNode.info,
                                                            newTreeNode.distanza)  # Calcola il numero di volte che il nodo risulta medio
                     if mediumNodo == max:  # Se il valore corrisponde a quello dell'attuale nodo massimo,
@@ -432,17 +447,16 @@ class GraphBase(Graph, metaclass=ABCMeta):
         if rootId not in self.nodes:
             return 0
 
-        i = 0 # Contatore del numero di volte che il nodo risulta medio
+        i = 0  # Contatore del numero di volte che il nodo risulta medio
 
-        treeNode = TreeNode(rootId)
-        # tree = Tree(treeNode)
-        vertexSet = {treeNode}
-        markedNodes = {rootId}
+        treeNode = TreeNode(rootId)  # Creo un nuovo nodo
+        vertexSet = {treeNode}  # Nodi da visitare
+        markedNodes = {rootId}  # Nodi visitati
 
-        while len(vertexSet) > 0:  # while there are nodes to explore ...
+        while len(vertexSet) > 0:  # Fin quando ho dei nodi ancora non esplorati,
 
-            treeNode = vertexSet.pop()  # get an unexplored node
-            adjacentNodes = self.getAdj(treeNode.info)
+            treeNode = vertexSet.pop()  # considero un nodo che devo ancora visitare
+            adjacentNodes = self.getAdj(treeNode.info)  # Ottengo i nodi adiacenti al nodo
 
             # Se la distanza del nodo dalla radice è uguale alla distanza del nodo stesso dalla radice
             if treeNode.distanza == distanzaNodo:
@@ -453,15 +467,15 @@ class GraphBase(Graph, metaclass=ABCMeta):
                 i = i + treeNode.distanza
 
             else:
-                for nodeIndex in adjacentNodes:
-                    if nodeIndex not in markedNodes:
-                        newTreeNode = TreeNode(nodeIndex)
-                        newTreeNode.father = treeNode
-                        newTreeNode.distanza = treeNode.distanza + 1
-                        treeNode.sons.append(newTreeNode)
-                        vertexSet.add(newTreeNode)
-                        markedNodes.add(nodeIndex)
-        return i # Restituisco il numero di volte che il nodo risulta medio
+                for nodeIndex in adjacentNodes:  # Per ogni nodo adiacente,
+                    if nodeIndex not in markedNodes:  # controllo se risulta visitato o meno. In caso non risulti visitato:
+                        newTreeNode = TreeNode(nodeIndex)  # Creo un nuovo nodo
+                        newTreeNode.father = treeNode  # Assegno il nodo come figlio del nodo che sto considerando
+                        treeNode.sons.append(newTreeNode)  # Aggiungo il nodo alla lista dei figli del nodo padre
+                        vertexSet.add(newTreeNode)  # Aggiungo il nodo alla lista dei nodi da visitare
+                        markedNodes.add(nodeIndex)  # Aggiungo il nodo alla lista dei nodi visitati
+
+        return i  # Restituisco il numero di volte che il nodo risulta medio
 
 
 if __name__ == "__main__":

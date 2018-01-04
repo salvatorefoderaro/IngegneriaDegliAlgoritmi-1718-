@@ -147,6 +147,7 @@ class GraphAdjacencyMatrix(GraphBase):
                     edges.append(Edge(src, dst, self.adj[src][dst]))
         return edges
 
+
     def isAdj(self, tail, head):
         """
         Checks if two nodes ar adjacent.
