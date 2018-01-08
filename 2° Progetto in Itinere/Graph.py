@@ -272,6 +272,154 @@ class GraphBase(Graph, metaclass=ABCMeta):
         """
         ...
 
+    def backToFather(self, rootID):
+
+        percorso = []  # La lista dei nodi appartenenti al percorso più lungo
+        while (rootID.father != None and rootID != int):  # Fin quando il nodo che sto considerando ha un padre,
+            percorso.append(rootID.info)  # aggiungo il padre alla lista dei nodi appartenenti al percorso,
+            rootID = rootID.father  # imposto il padre come nuovo nodo
+
+        if len(percorso) < 3:  # Se ho meno di tre elementi nel percorso, nessun nodo risulta medio
+            return "Nessun nodo risulta medio"
+
+        if (len(
+                percorso) % 2) == 0:  # Se il numero di elementi è pari, devo controllare quale dei due elementi ha il maggior numero di figli
+
+            # Ottengo i due elementi medi nella lista
+            primoElemento = percorso[int(len(percorso) / 2)]
+            secondoElemento = percorso[int((len(percorso) / 2) + 1)]
+
+            # Elimino l'arco che collega i due nodi, in modo da poter eseguire due visite separate
+            self.deleteEdge(primoElemento, secondoElemento)
+            self.deleteEdge(secondoElemento, primoElemento)
+
+            first = self.calculateSubNode(primoElemento)  # Numero di nodi figli del primo elemento
+            second = self.calculateSubNode(secondoElemento)  # Numero di nodi figli del secondo elemento
+
+            if first < second:
+                return "Il nodo che risulta medio per il maggior numero di coppie di nodi è", secondoElemento
+            elif second > first:
+                return "Il nodo che risulta medio per il maggior numero di coppie di nodi è", primoElemento
+            else:
+                return "I nodi che risultano medi per il maggior numero di coppie di nodi sono:", primoElemento, secondoElemento
+        else:
+            return "Il nodo che risulta medio per il maggior numero di coppie di nodi è", percorso[
+                int(len(percorso) / 2)]
+
+    def calculateSubNode(self, rootId):
+        """
+        Execute a generic search in the graph starting from the specified node.
+        :param rootId: the root node ID (integer).
+        :return: the generic exploration tree.
+        """
+
+        counter = 0  # Contatore degli elementi figli del nodo
+
+        # Utilizzo l'algoritmo per la visita generica visto a lezione
+        if rootId not in self.nodes:
+            return None
+
+        treeNode = TreeNode(rootId)
+        vertexSet = {treeNode}
+        markedNodes = {rootId}
+
+        while len(vertexSet) > 0:
+            treeNode = vertexSet.pop()
+            adjacentNodes = self.getAdj(treeNode.info)
+            for nodeIndex in adjacentNodes:
+                if nodeIndex not in markedNodes:
+                    counter = counter + 1  # Incremento il contatore
+                    newTreeNode = TreeNode(nodeIndex)
+                    vertexSet.add(newTreeNode)
+                    markedNodes.add(nodeIndex)
+        return counter
+
+    def mediumNode(self, rootId):
+        """
+        Execute a generic search in the graph starting from the specified node.
+        :param rootId: the root node ID (integer).
+        :return: the generic exploration tree.
+        """
+        max = [0, 0]  # Inizializzo a 0 le informazioni riguardo al nodo massimo
+
+        # Utilizzando l'algoritmo per la visita generica visto a lezione, scansiono l'albero
+        if rootId not in self.nodes:
+            return None
+
+        treeNode = TreeNode(rootId)
+        vertexSet = {treeNode}
+        markedNodes = {rootId}
+
+        while len(vertexSet) > 0:
+            treeNode = vertexSet.pop()
+            adjacentNodes = self.getAdj(treeNode.info)
+
+            if len(
+                    adjacentNodes) == 1:  # Se il nodo che sto considerando ha solamente un nodo adiacente, dunque è una foglia:
+                lunghezzaPercorso = self.leafDistance(
+                    treeNode.info)  # Calcolo la lunghezza del percorso massimo raggiungibile dalla foglia
+                if lunghezzaPercorso[0] > max[
+                    0]:  # Se il percorso è più lungo dell'attuale massimo, imposto i valori della foglia
+                    max[0] = lunghezzaPercorso[0]
+                    max[1] = lunghezzaPercorso[1]
+
+            for nodeIndex in adjacentNodes:
+                if nodeIndex not in markedNodes:
+                    newTreeNode = TreeNode(nodeIndex)
+                    newTreeNode.father = treeNode
+                    treeNode.sons.append(newTreeNode)
+                    vertexSet.add(newTreeNode)
+                    markedNodes.add(nodeIndex)
+
+        if max[1] != 0:
+            return self.backToFather(max[1])
+        else:
+            return "Nessun nodo risulta medio"
+
+    def leafDistance(self, rootId):
+        """
+        Execute a generic search in the graph starting from the specified node.
+        :param rootId: the root node ID (integer).
+        :return: the generic exploration tree.
+        """
+
+        lunghezzaPercorso = [0, 0]
+        # lunghezzaPercorso[0] = distanza del nodo dalla radice
+        # lunghezzaPercorso[1] = nodo
+
+        # Eseguo una visita generica utilizzando l'algoritmo visto a lezione
+        if rootId not in self.nodes:
+            return None
+
+        treeNode = TreeNode(rootId)
+        vertexSet = {treeNode}
+        markedNodes = {rootId}
+
+        while len(vertexSet) > 0:
+            treeNode = vertexSet.pop()
+            adjacentNodes = self.getAdj(treeNode.info)
+
+            if len(
+                    adjacentNodes) == 1:  # Quando trovo una foglia, controllo la sua distanza dalla foglia considerata in questo caso come radice
+                if lunghezzaPercorso[
+                    0] < treeNode.distanza:  # Se la foglia ha una distanza superiore a quella dell'attuale percorso, imposto i nuovi valori
+                    lunghezzaPercorso[0] = treeNode.distanza
+                    lunghezzaPercorso[1] = treeNode
+                elif lunghezzaPercorso[0] == treeNode.distanza:
+                    lunghezzaPercorso[0] = treeNode.distanza
+                    lunghezzaPercorso[1] = treeNode
+
+            for nodeIndex in adjacentNodes:
+                if nodeIndex not in markedNodes:
+                    newTreeNode = TreeNode(nodeIndex)
+                    newTreeNode.father = treeNode
+                    newTreeNode.distanza = treeNode.distanza + 1  # Incremento la distanza del nodo
+                    treeNode.sons.append(newTreeNode)
+                    vertexSet.add(newTreeNode)
+                    markedNodes.add(nodeIndex)
+
+        return lunghezzaPercorso  # Restituisco la lista con i valori
+
     def genericSearch(self, rootId):
         """
         Execute a generic search in the graph starting from the specified node.
@@ -281,7 +429,7 @@ class GraphBase(Graph, metaclass=ABCMeta):
         if rootId not in self.nodes:
             return None
 
-        treeNode = TreeNode(rootId)
+        treeNode = TreeN.ode(rootId)
         tree = Tree(treeNode)
         vertexSet = {treeNode} # nodes to explore
         markedNodes = {rootId} # nodes already explored
@@ -367,120 +515,6 @@ class GraphBase(Graph, metaclass=ABCMeta):
         :return: void.
         """
         ...
-
-    def getRoot(self):
-        """
-        Questa funzione, dato un grafo non orientato ed aciclico, restituisce i nodi che non hanno archi entranti.
-        :param self:
-        :return: lista dei nodi senza archi in entrata
-        """
-        edges = self.getEdges()  # Ottengo la lista degli archi
-        nodes = self.getNodes()  # Ottengo la lista dei nodi
-        listaTeste = []
-        listaRoot = []
-        for i in edges:
-            listaTeste.append(i.head)  # Per ogni arco, aggiungo alla lista il nodo di testa
-        for j in nodes:
-            if j.id not in listaTeste:  # Se il nodo che sto considerando non è in lista, allora non ha nessun arco in entrata
-                listaRoot.append(j.id)  # Essendo un grafo aciclico non orientato, è unico
-        return listaRoot  # Restituisco il nodo radice dell'albero
-
-    def mediumNode(self):
-        """
-        Questa funzione restituisce la lista dei nodi che risultano medi il maggior numero di volte
-
-        :param
-        int rootId: ID della radice dell'albero
-        :return
-        nodeMax: Nodo (o lista nodi) massimo per il maggior numero di volte
-        """
-
-        # Come per la visita generica, scorro l'albero ed accedo ad ogni nodo
-        rootList = self.getRoot()
-        nodeMax = [0]  # Nodo che risulta medio il maggior numero di volte
-        max = 0  # Numero di volte che nodeMax risulta medio
-        for rootId in rootList:
-
-            if rootId not in self.nodes:  # Se il nodo che sto considerando come radice non appartiene al grafo, restituisco None
-                return None
-
-            treeNode = TreeNode(rootId)  # Creo un nuovo nodo
-            vertexSet = {treeNode}  # Nodi da visitare
-            markedNodes = {rootId}  # Nodi visitati
-
-            while len(vertexSet) > 0:  # Fin quando ho dei nodi ancora non esplorati,
-                treeNode = vertexSet.pop()  # considero un nodo che devo ancora visitare
-                adjacentNodes = self.getAdj(treeNode.info)  # Ottengo i nodi adiacenti al nodo
-                for nodeIndex in adjacentNodes:  # Per ogni nodo adiacente,
-                    if nodeIndex not in markedNodes:  # controllo se risulta visitato o meno. In caso non risulti visitato:
-                        newTreeNode = TreeNode(nodeIndex)  # Creo un nuovo nodo
-                        newTreeNode.father = treeNode  # Assegno il nodo come figlio del nodo che sto considerando
-                        treeNode.sons.append(newTreeNode)  # Aggiungo il nodo alla lista dei figli del nodo padre
-                        vertexSet.add(newTreeNode)  # Aggiungo il nodo alla lista dei nodi da visitare
-                        markedNodes.add(nodeIndex)  # Aggiungo il nodo alla lista dei nodi visitati
-                        newTreeNode.distanza = treeNode.distanza + 1  # Incrementa la distanza del nodo dalla radice
-                        mediumNodo = self.calculateMediumValue(newTreeNode.info,
-                                                               newTreeNode.distanza)  # Calcola il numero di volte che il nodo risulta medio
-                        if mediumNodo == max:  # Se il valore corrisponde a quello dell'attuale nodo massimo,
-                            nodeMax.append(newTreeNode.info)  # Aggiungo alla lista dei nodi massimi il nodo
-                        elif mediumNodo > max:  # Se il valore risulta superiore a quello dell'attuale nodo massimo,
-                            nodeMax = [0]  # azzera la lista dei nodi massimi
-                            max = mediumNodo  # Imposta il valore del nuovo nodo massimo
-                            nodeMax[0] = newTreeNode.info  # Imposta il nodo come nodo massimo
-
-        if nodeMax[0] == 0:
-            return 0  # Se nessun nodo è medio almeno una volta, restituisco 0
-        else:
-            return nodeMax  # Restituisco l'ID del nodo
-
-    def calculateMediumValue(self, rootId, distanzaNodo):
-        """
-        Questa funzione, dato in input l'ID di un Nodo e la sua distanza dalla radice, restituisce il numero di volte
-        che il nodo stesso risulta medio per una coppia di nodi
-
-        :param
-        int rootId: ID del nodo
-        :param
-        int distanzaNodo: Distanza del nodo dalla radice
-        :return
-        int i: Numero di volte che il nodo risulta medio
-        """
-        if rootId not in self.nodes:
-            return 0
-
-        i = 0  # Contatore del numero di volte che il nodo risulta medio
-
-        # Eseguo una visita generica prendendo come radice il nodo considerato
-
-        treeNode = TreeNode(rootId)  # Creo un nuovo nodo
-        vertexSet = {treeNode}  # Nodi da visitare
-        markedNodes = {rootId}  # Nodi visitati
-
-        while len(vertexSet) > 0:  # Fin quando ho dei nodi ancora non esplorati,
-
-            treeNode = vertexSet.pop()  # considero un nodo che devo ancora visitare
-            adjacentNodes = self.getAdj(treeNode.info)  # Ottengo i nodi adiacenti al nodo
-
-            # Se la distanza del nodo dalla radice è uguale alla distanza del nodo stesso dalla radice
-            if treeNode.distanza == distanzaNodo:
-                i = i + treeNode.distanza
-
-            # Se non ci sono più nodi adiacenti
-            elif not adjacentNodes:
-                i = i + treeNode.distanza
-
-            else:
-                for nodeIndex in adjacentNodes:  # Per ogni nodo adiacente,
-                    if nodeIndex not in markedNodes:  # controllo se risulta visitato o meno. In caso non risulti visitato:
-                        newTreeNode = TreeNode(nodeIndex)  # Creo un nuovo nodo
-                        newTreeNode.father = treeNode  # Assegno il nodo come figlio del nodo che sto considerando
-                        treeNode.sons.append(newTreeNode)  # Aggiungo il nodo alla lista dei figli del nodo padre
-                        vertexSet.add(newTreeNode)  # Aggiungo il nodo alla lista dei nodi da visitare
-                        markedNodes.add(nodeIndex)  # Aggiungo il nodo alla lista dei nodi visitati
-                        newTreeNode.distanza = treeNode.distanza + 1  # Incrementa la distanza del nodo dalla radice
-
-        return i  # Restituisco il numero di volte che il nodo risulta medio
-
 
 if __name__ == "__main__":
     graph = GraphBase() # error due to the instantiation of an abstract class
