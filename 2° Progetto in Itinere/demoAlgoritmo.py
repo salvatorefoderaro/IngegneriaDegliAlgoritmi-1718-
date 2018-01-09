@@ -5,115 +5,36 @@ import time
 import random
 
 
-def demoProgettoPeggiore(strutturaDati):
-    """
-    :param numeroNodi:
-    :param numeroArchi:
-    :param strutturaDati: GraphAdjacencyList, GraphAdjacencyMatrix, GraphIncidenceList
-    :return:
-    """
+def generateRandomGraph(numNodes, numEdges, strutturaDati):
+
+    if numEdges > numNodes:
+        print("Errore, il numero di nodi non può essere minore del numero degli archi")
+        return 0
 
     graph = strutturaDati()
-    valori = [0, 50, 100, 250, 500, 750, 1000, 2500, 5000, 7500, 10000]
-    tempi = []
-	
-    for k in valori:
-        nodes = []
-        for i in range(1, k):
-            node = graph.addNode(i)
-            nodes.append(node)
+    nodes = []
+    heads = []
 
-        for j in range(1, k):
-            graph.insertEdge(1,j)
-            graph.insertEdge(j,1)
+    for k in range (1,numNodes):
+        graph.addNode(k)
+        nodes.append(k)
 
-        # for j in range(1, k):
-        #    graph.insertEdge(1,j)
-        #    graph.insertEdge(j,1)
-        print("Eseguo la funzione")
-        start = time.time()
-        graph.algoritmoAlberto(int(k / 2))
-        end = time.time()
-        tempi.append(end-start)
+    for j in range (1, numEdges):
+        a = random.choice(nodes)
+        b = random.choice(nodes)
+        if (a != b and b not in heads):
+            heads.append(b)
+            graph.insertEdge(a,b)
+            graph.insertEdge(b,a)
 
-    print(tempi)
-
-
-def demoProgettoMigliore(strutturaDati):
-    """
-    :param numeroNodi:
-    :param numeroArchi:
-    :param strutturaDati: GraphAdjacencyList, GraphAdjacencyMatrix, GraphIncidenceList
-    :return:
-    """
-    tempi = []
-    graph = strutturaDati()
-    valori = [0, 51, 101, 251, 501, 751, 1001, 2500, 5000, 7500, 10000]
-
-    for k in valori:
-        nodes = []
-        for i in range(1, k):
-            node = graph.addNode(i)
-            nodes.append(node)
-
-        for j in range(1, k):
-            graph.insertEdge(j, j+1)
-
-
-            graph.insertEdge(j+1,j)
-
-        # for j in range(1, k):
-        #    graph.insertEdge(1,j)
-        #    graph.insertEdge(j,1)
-        start = time.time()
-        graph.mediumNode()
-        end = time.time()
-        tempi.append(end-start)
-    print(tempi)
-
-def demoProgettoMedio(strutturaDati):
-    """
-    :param numeroNodi:
-    :param numeroArchi:
-    :param strutturaDati: GraphAdjacencyList, GraphAdjacencyMatrix, GraphIncidenceList
-    :return:
-    """
-    tempi = []
-    graph = strutturaDati()
-    print("Esecuzione funzione con", strutturaDati)
-    valori = [0, 50, 100,250, 500, 750, 1000, 2500, 5000, 7500, 10000]
-
-    for k in valori:
-        nodes = []
-        for i in range(1, 1000):
-            node = graph.addNode(i)
-            nodes.append(i)
-
-
-
-        for j in range(1,1000):
-            graph.insertEdge(j, (j*2))
-            graph.insertEdge(j, (j*2)+1)
-
-
-            graph.insertEdge((j*2), j)
-            graph.insertEdge((j*2)  +1, j)
-        #for j in range(1, k):
-        #    graph.insertEdge(1,j)
-        #    graph.insertEdge(j,1)
-        start = time.time()
-        print(graph.mediumNode(random.choice(nodes)))
-        end = time.time()
-        tempi.append(end-start)
-        print(end-start)
-    print(tempi)
-
+    print("Funzione!")
+    start = time.time()
+    print(graph.controlloFunzione())
+    end = time.time()
+    print(end - start)
 
 if __name__ == "__main__":
-
-    print("Demo progetto medio")
-    for m in range (1,6):
-        demoProgettoMedio(GraphAdjacencyList)
-        #demoProgettoMigliore(GraphAdjacencyList)
-        #demoProgettoPeggiore(GraphAdjacencyList)
-        # demoProgetto(GraphIncidenceList)
+    for k in range(1, 3):
+         generateRandomGraph(10000, 7000, GraphAdjacencyList)
+         generateRandomGraph(50000, 35000, GraphAdjacencyList)
+         generateRandomGraph(100000, 70000, GraphAdjacencyList)

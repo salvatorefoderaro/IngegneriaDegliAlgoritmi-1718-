@@ -5,7 +5,6 @@ from tree.treeArrayList import TreeArrayListNode as TreeNode
 from tree.treeArrayList import TreeArrayList as Tree
 from queue.Queue import CodaArrayList_deque as Queue
 from stack.Stack import PilaArrayList as Stack
-import random
 
 
 class Graph:
@@ -272,33 +271,15 @@ class GraphBase(Graph, metaclass=ABCMeta):
         """
         ...
 
-    def controlloFunzione(self):
-        nodi = []
-        nodeMax = [0, 0]
-        for nodo in (self.getNodes()):
-            if self.getAdjModified(nodo.id) != 0:
-                nodi.append(nodo.id)
-
-        while (len(nodi)>0):
-            percorso = self.mediumNode(random.choice(nodi))
-            if percorso[1] != 0:
-                nodoMassimo = self.backToFather(percorso[1])
-                if(nodoMassimo != 0 and nodoMassimo[1] > nodeMax[1]):
-                    nodeMax[0] = nodoMassimo[0]
-                    nodeMax[1] = nodoMassimo[1]
-            nodi = list(set(nodi) - set(percorso[2]))
-
-        return nodeMax
-
     def backToFather(self, rootID):
-        nodeList = [0, 0]
+
         percorso = []  # La lista dei nodi appartenenti al percorso più lungo
         while (rootID.father != None and rootID != int):  # Fin quando il nodo che sto considerando ha un padre,
             percorso.append(rootID.info)  # aggiungo il padre alla lista dei nodi appartenenti al percorso,
             rootID = rootID.father  # imposto il padre come nuovo nodo
 
         if len(percorso) < 3:  # Se ho meno di tre elementi nel percorso, nessun nodo risulta medio
-            return 0
+            return "Nessun nodo risulta medio"
 
         if (len(
                 percorso) % 2) == 0:  # Se il numero di elementi è pari, devo controllare quale dei due elementi ha il maggior numero di figli
@@ -313,16 +294,16 @@ class GraphBase(Graph, metaclass=ABCMeta):
 
             first = self.calculateSubNode(primoElemento)  # Numero di nodi figli del primo elemento
             second = self.calculateSubNode(secondoElemento)  # Numero di nodi figli del secondo elemento
-            # Devo aggiungere il return della lunghezza del percorso
+
             if first < second:
-                nodeList = [secondoElemento, second]
+                return "Il nodo che risulta medio per il maggior numero di coppie di nodi è", secondoElemento
             elif second > first:
-                nodeList = [primoElemento, first]
+                return "Il nodo che risulta medio per il maggior numero di coppie di nodi è", primoElemento
             else:
-                nodeList = [[primoElemento, secondoElemento], first]
+                return "I nodi che risultano medi per il maggior numero di coppie di nodi sono:", primoElemento, secondoElemento
         else:
-                nodeList = [percorso[int(len(percorso)/2)], int(len(percorso)/2)]
-        return nodeList
+            return "Il nodo che risulta medio per il maggior numero di coppie di nodi è", percorso[
+                int(len(percorso) / 2)]
 
     def calculateSubNode(self, rootId):
         """
@@ -352,13 +333,20 @@ class GraphBase(Graph, metaclass=ABCMeta):
                     markedNodes.add(nodeIndex)
         return counter
 
+    def controlloFunzione(self):
+
+        nodi = []
+        for nodo in (self.getNodes()):
+            if len(self.getAdj(nodo.id)) != 0:
+                nodi.append(nodo.id)
+        print(nodi)
+
     def mediumNode(self, rootId):
         """
         Execute a generic search in the graph starting from the specified node.
         :param rootId: the root node ID (integer).
         :return: the generic exploration tree.
         """
-
         max = [0, 0, 0]  # Inizializzo a 0 le informazioni riguardo al nodo massimo
 
         # Utilizzando l'algoritmo per la visita generica visto a lezione, scansiono l'albero
@@ -367,7 +355,7 @@ class GraphBase(Graph, metaclass=ABCMeta):
 
         treeNode = TreeNode(rootId)
         vertexSet = {treeNode}
-        markedNodes = {rootId}  # Nodi visitati
+        markedNodes = {rootId}
 
         while len(vertexSet) > 0:
             treeNode = vertexSet.pop()
@@ -390,8 +378,10 @@ class GraphBase(Graph, metaclass=ABCMeta):
                     vertexSet.add(newTreeNode)
                     markedNodes.add(nodeIndex)
 
-        max[2] = markedNodes
-        return max
+        if max[1] != 0:
+            return self.backToFather(max[1])
+        else:
+            return "Nessun nodo risulta medio"
 
     def leafDistance(self, rootId):
         """

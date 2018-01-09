@@ -217,6 +217,21 @@ class GraphAdjacencyList(GraphBase):
             curr = curr.next
         return result
 
+    def getAdjModified(self, nodeId):
+        """
+        Return all nodes adjacent to the one specified.
+        :param nodeId: the node id.
+        :return: the list of nodes adjacent to the one specified.
+        """
+        result = []
+        curr = self.adj[nodeId].getFirstRecord()
+        while curr is not None:
+            result.append(curr.elem)
+            curr = curr.next
+            if (len(result) > 1):
+                return 1
+        return 0
+
     def deg(self, nodeId):
         """
         Return the node degree.
