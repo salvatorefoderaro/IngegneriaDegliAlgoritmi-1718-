@@ -2,10 +2,15 @@ import random
 
 def generateRandomGraph(numNodes, numEdges, strutturaDati):
 
-    #strutturaDati deve essere
-    #GraphAdjacencyList
-    #GraphAdjacencyMatrix
-    #GraphIncidenceList
+    """
+    strutturaDati deve essere:
+    GraphAdjacencyList
+    GraphAdjacencyMatrix
+    GraphIncidenceList
+
+    numNodes rappresenta il numero di nodi
+    numEdges rappresenta il numero di archi
+    """
 
     if numEdges > numNodes:
         print("Errore, il numero di nodi non può essere minore del numero degli archi")
