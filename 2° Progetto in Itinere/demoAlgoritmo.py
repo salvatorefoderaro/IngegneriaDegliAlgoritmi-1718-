@@ -30,20 +30,20 @@ def generateRandomGraph(numNodes, numEdges, strutturaDati):
     start = time.time()
     graph.controlloFunzione()
     end = time.time()
-    print("\nIl tempo impiegato è:", end-start, "\nIl numero di archi è", int(len(graph.getEdges())/2), "\nIl numero di nodi è:", len(graph.getNodes()))
+    print("\nIl tempo impiegato è:", end-start)
 
 if __name__ == "__main__":
 
     for k in range (1,6):
 
-         generateRandomGraph(500, 500, GraphAdjacencyList)
+         """generateRandomGraph(500, 500, GraphAdjacencyList)
          generateRandomGraph(1000, 1000, GraphAdjacencyList)
          generateRandomGraph(2000, 2000, GraphAdjacencyList)
          generateRandomGraph(5000, 5000, GraphAdjacencyList)
          generateRandomGraph(10000, 10000, GraphAdjacencyList)
          generateRandomGraph(20000, 20000, GraphAdjacencyList)
          generateRandomGraph(50000, 50000, GraphAdjacencyList)
-         generateRandomGraph(100000, 100000, GraphAdjacencyList)
+         generateRandomGraph(100000, 100000, GraphAdjacencyList)"""
          generateRandomGraph(200000, 200000, GraphAdjacencyList)
          generateRandomGraph(500000, 500000, GraphAdjacencyList)
          generateRandomGraph(1000000, 1000000, GraphAdjacencyList)
