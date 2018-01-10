@@ -36,6 +36,12 @@
         """
         nodeList = [0, 0]  # Informazioni riguardo al nodo massimo
 
+        percorso = []  # La lista dei nodi appartenenti al percorso più lungo
+        while (rootID.father != None and rootID != int):  # Fin quando il nodo che sto considerando ha un padre,
+            percorso.append(rootID.info)  # aggiungo il padre alla lista dei nodi appartenenti al percorso,
+            rootID = rootID.father  # imposto il padre come nuovo nodo
+        percorso.append(rootID)
+
         if len(percorso) < 3:  # Se ho meno di tre elementi nel percorso, nessun nodo risulta medio
             return 0
 

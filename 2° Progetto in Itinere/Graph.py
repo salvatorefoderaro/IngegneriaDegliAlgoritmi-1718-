@@ -283,14 +283,13 @@ class GraphBase(Graph, metaclass=ABCMeta):
         nodi = []  # Lista dei nodi appartenenti al grafo, con almeno un elemento adiacente
         nodeMax = [0, 0]  # Informazioni sul nodo che risulta medio il maggior numero di volte
         for nodo in (self.getNodes()):  # Considero ogni nodo
-            if (self.getAdjModified(nodo.id) == 0):
             if (self.getAdjModified(nodo.id) != 0):  # Se il nodo ha almeno un nodo adiacente,
                 nodi.append(nodo.id)  # lo aggiungo alla lista dei nodi da visitare
 
         while (len(nodi) > 0):  # Fin quando ho nodi da di visitare
             percorso = self.mediumNode(random.choice(nodi))  # Ottengo il percorso più lungo nel grafo
             if percorso[1] != 0:  # Se esiste un percorso,
-                nodoMassimo = self.backToFather(percorso[3])  # calcolo il valore del(dei) nodo massimo(massimi)
+                nodoMassimo = self.backToFather(percorso[1])  # calcolo il valore del(dei) nodo massimo(massimi)
                 if (nodoMassimo != 0 and nodoMassimo[1] > nodeMax[
                     1]):  # Se il nuovo nodo è medio per un numero superiore di volte all'attuale massimo,
                     nodeMax[0] = nodoMassimo[0]  # imposto i suoi valori come nuovo massimo
@@ -300,7 +299,7 @@ class GraphBase(Graph, metaclass=ABCMeta):
 
         return nodeMax  # Restituisco il nodo massimo e le volte che risulta massimo nel grafo
 
-    def backToFather(self, percorso):
+    def backToFather(self, rootID):
         """
         Questa funzione, dato un grafo ed il percorso più lungo all'interno di un suo sottografo, restituisce una lista contenente l'Id
         del nodo (o dei nodi) ed il numero di volte che risultano medi.
@@ -309,6 +308,12 @@ class GraphBase(Graph, metaclass=ABCMeta):
         :return: lista contenente le informazioni sul nodo massimo
         """
         nodeList = [0, 0]  # Informazioni riguardo al nodo massimo
+
+        percorso = []  # La lista dei nodi appartenenti al percorso più lungo
+        while (rootID.father != None and rootID != int):  # Fin quando il nodo che sto considerando ha un padre,
+            percorso.append(rootID.info)  # aggiungo il padre alla lista dei nodi appartenenti al percorso,
+            rootID = rootID.father  # imposto il padre come nuovo nodo
+        percorso.append(rootID.info)
 
         if len(percorso) < 3:  # Se ho meno di tre elementi nel percorso, nessun nodo risulta medio
             return 0
@@ -344,7 +349,7 @@ class GraphBase(Graph, metaclass=ABCMeta):
         :return: lista contenente le informazioni sul nodo massimo e sul percorso
         """
 
-        max = [0, 0, 0, 0]  # Inizializzo a 0 le informazioni riguardo al nodo massimo
+        max = [0, 0, 0]  # Inizializzo a 0 le informazioni riguardo al nodo massimo
 
         # max[0] = lunghezza del percorso
         # max[1] = foglia più profonda
@@ -371,7 +376,6 @@ class GraphBase(Graph, metaclass=ABCMeta):
                     0]:  # Se il percorso è più lungo dell'attuale massimo, imposto i valori della foglia
                     max[0] = lunghezzaPercorso[0]
                     max[1] = lunghezzaPercorso[1]
-                    max[3] = lunghezzaPercorso[2]
 
             for nodeIndex in adjacentNodes:
                 if nodeIndex not in markedNodes:
@@ -392,7 +396,7 @@ class GraphBase(Graph, metaclass=ABCMeta):
         :return: the generic exploration tree.
         """
 
-        lunghezzaPercorso = [0, 0, 0]
+        lunghezzaPercorso = [0, 0]
         # lunghezzaPercorso[0] = distanza del nodo dalla radice
         # lunghezzaPercorso[1] = nodo
 
@@ -426,7 +430,6 @@ class GraphBase(Graph, metaclass=ABCMeta):
                     treeNode.sons.append(newTreeNode)
                     vertexSet.add(newTreeNode)
                     markedNodes.append(nodeIndex)
-        lunghezzaPercorso[2] = markedNodes
 
         return lunghezzaPercorso  # Restituisco la lista con i valori
 
