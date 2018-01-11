@@ -281,22 +281,35 @@ class GraphBase(Graph, metaclass=ABCMeta):
         """
 
         nodi = []  # Lista dei nodi appartenenti al grafo, con almeno un elemento adiacente
-        nodeMax = [0, 0]  # Informazioni sul nodo che risulta medio il maggior numero di volte
+        nodeMax = [[], 0]  # Informazioni sul nodo che risulta medio il maggior numero di volte
         for nodo in (self.getNodes()):  # Considero ogni nodo
             if (self.getAdjModified(nodo.id) != 0):  # Se il nodo ha almeno un nodo adiacente,
                 nodi.append(nodo.id)  # lo aggiungo alla lista dei nodi da visitare
 
         while (len(nodi) > 0):  # Fin quando ho nodi da di visitare
             percorso = self.mediumNode(random.choice(nodi))  # Ottengo il percorso più lungo nel grafo
-            if percorso[1] != 0:  # Se esiste un percorso,
-                nodoMassimo = self.backToFather(percorso[1])  # calcolo il valore del(dei) nodo massimo(massimi)
-                if (nodoMassimo != 0 and nodoMassimo[1] > nodeMax[
-                    1]):  # Se il nuovo nodo è medio per un numero superiore di volte all'attuale massimo,
-                    nodeMax[0] = nodoMassimo[0]  # imposto i suoi valori come nuovo massimo
-                    nodeMax[1] = nodoMassimo[1]
-            nodi = list(set(nodi) - set(
-                percorso[2]))  # Rimuovo dalla lista dei nodi quelli appartenenti al sottografo considerato
 
+            """fogliaProfondaDuplicati = []
+            # Devo eliminare i nodi duplicati
+            for i in percorso[1]:
+                if i.info not in fogliaProfondaDuplicati:
+                    fogliaProfondaDuplicati.append(i.info)
+                else:
+                    percorso[1].remove(i)"""
+
+            for fogliaProfonda in percorso[1]: # Nel caso in cui all'interno di un sotto-grafo siano presenti più foglie con la stessa lunghezza del percorso
+                    if fogliaProfonda != 0:  # Se esiste un percorso,
+                        nodoMassimo = self.backToFather(fogliaProfonda)  # calcolo il valore del(dei) nodo massimo(massimi)
+                        if (nodoMassimo != 0 and nodoMassimo[0] != 0):
+                            if (nodoMassimo[1] > nodeMax[1]):  # Se il nuovo nodo è medio per un numero superiore di volte all'attuale massimo,
+                                    nodeMax[0] = []
+                                    nodeMax[0] = nodeMax[0] + nodoMassimo[0]  # imposto i suoi valori come nuovo massimo
+                                    nodeMax[1] = nodoMassimo[1]
+                            if (nodoMassimo[1] == nodeMax[1]):
+                            #if (nodoMassimo[0] not in nodeMax[0]):
+                                nodeMax[0] = nodeMax[0] + nodoMassimo[0]
+            nodi = list(set(nodi) - set(percorso[2]))  # Rimuovo dalla lista dei nodi quelli appartenenti al sottografo considerato
+        nodeMax[0] = list(set(nodeMax[0]))
         return nodeMax  # Restituisco il nodo massimo e le volte che risulta massimo nel grafo
 
     def backToFather(self, rootID):
@@ -307,7 +320,7 @@ class GraphBase(Graph, metaclass=ABCMeta):
         :param percorso: lista dei nodi appartenenti al percorso
         :return: lista contenente le informazioni sul nodo massimo
         """
-        nodeList = [0, 0]  # Informazioni riguardo al nodo massimo
+        nodeList = [[], 0]  # Informazioni riguardo al nodo massimo
 
         percorso = []  # La lista dei nodi appartenenti al percorso più lungo
         while (rootID.father != None and rootID != int):  # Fin quando il nodo che sto considerando ha un padre,
@@ -324,21 +337,47 @@ class GraphBase(Graph, metaclass=ABCMeta):
             primoElemento = percorso[int(len(percorso) / 2)]
             secondoElemento = percorso[int((len(percorso) / 2) + 1)]
 
-            first = len(percorso[:percorso.index(primoElemento)])  # Numero di nodi figli del primo elemento
-            second = len(percorso[percorso.index(secondoElemento):])  # Numero di nodi figli del secondo elemento
+            first = self.calculateSubNode(primoElemento)  # Numero di nodi figli del primo elemento
+            second = self.calculateSubNode(secondoElemento)  # Numero di nodi figli del secondo elemento
+
+            """first = len(percorso[:percorso.index(primoElemento)])  # Numero di nodi figli del primo elemento
+            second = len(percorso[percorso.index(secondoElemento):])  # Numero di nodi figli del secondo elemento"""
 
             # Confronto il numero di elementi appartenenti ai sottoalberi ottenuti dai due elementi
             if first < second:
-                nodeList = [secondoElemento, second]
+                nodeList = [[secondoElemento], second]
             elif second > first:
-                nodeList = [primoElemento, first]
+                nodeList = [[primoElemento], first]
             else:
                 nodeList = [[primoElemento, secondoElemento], first]
         else:
             # Se il numero di elementi nel percorso è dispari, prendo quello che sta a metà
-            nodeList = [percorso[int(len(percorso) / 2)], int(len(percorso) / 2)]
+            nodeList = [[    percorso[int(len(percorso) / 2) ] ]  , int(len(percorso) / 2)]
 
         return nodeList
+
+    def calculateSubNode(self, rootId):
+          # Contatore degli elementi figli del nodo
+          # Utilizzo l'algoritmo per la visita generica visto a lezione
+
+        if rootId not in self.nodes:
+            return None
+        counter = 0
+        treeNode = TreeNode(rootId)
+        vertexSet = {treeNode}
+        markedNodes = {rootId}
+
+
+        while len(vertexSet) > 0:
+                treeNode = vertexSet.pop()
+                adjacentNodes = self.getAdj(treeNode.info)
+                for nodeIndex in adjacentNodes:
+                    if nodeIndex not in markedNodes:
+                        counter = counter + 1  # Incremento il contatore
+                        newTreeNode = TreeNode(nodeIndex)
+                        vertexSet.add(newTreeNode)
+                        markedNodes.add(nodeIndex)
+        return counter
 
     def mediumNode(self, rootId):
         """
@@ -349,7 +388,7 @@ class GraphBase(Graph, metaclass=ABCMeta):
         :return: lista contenente le informazioni sul nodo massimo e sul percorso
         """
 
-        max = [0, 0, 0]  # Inizializzo a 0 le informazioni riguardo al nodo massimo
+        max = [0, [], 0]  # Inizializzo a 0 le informazioni riguardo al nodo massimo
 
         # max[0] = lunghezza del percorso
         # max[1] = foglia più profonda
@@ -368,14 +407,15 @@ class GraphBase(Graph, metaclass=ABCMeta):
             treeNode = vertexSet.pop()
             adjacentNodes = self.getAdj(treeNode.info)
 
-            if len(
-                    adjacentNodes) == 1:  # Se il nodo che sto considerando ha solamente un nodo adiacente, dunque è una foglia:
-                lunghezzaPercorso = self.leafDistance(
-                    treeNode.info)  # Calcolo la lunghezza del percorso massimo raggiungibile dalla foglia
-                if lunghezzaPercorso[0] > max[
-                    0]:  # Se il percorso è più lungo dell'attuale massimo, imposto i valori della foglia
+            if len(adjacentNodes) == 1:  # Se il nodo che sto considerando ha solamente un nodo adiacente, dunque è una foglia:
+                lunghezzaPercorso = self.leafDistance(treeNode.info)  # Calcolo la lunghezza del percorso massimo raggiungibile dalla foglia
+                if lunghezzaPercorso[0] > max[0]:  # Se il percorso è più lungo dell'attuale massimo, imposto i valori della foglia
                     max[0] = lunghezzaPercorso[0]
                     max[1] = lunghezzaPercorso[1]
+                if (lunghezzaPercorso[0] == max[0] and lunghezzaPercorso[1] not in max[1]):
+                    if (lunghezzaPercorso[1] in max[1]):
+                        print("Caccaaaaa")
+                    max[1] = max[1] + lunghezzaPercorso[1]
 
             for nodeIndex in adjacentNodes:
                 if nodeIndex not in markedNodes:
@@ -384,7 +424,6 @@ class GraphBase(Graph, metaclass=ABCMeta):
                     treeNode.sons.append(newTreeNode)
                     vertexSet.add(newTreeNode)
                     markedNodes.append(nodeIndex)
-
         max[2] = markedNodes
         return max
 
@@ -396,7 +435,7 @@ class GraphBase(Graph, metaclass=ABCMeta):
         :return: the generic exploration tree.
         """
 
-        lunghezzaPercorso = [0, 0]
+        lunghezzaPercorso = [0, []]
         # lunghezzaPercorso[0] = distanza del nodo dalla radice
         # lunghezzaPercorso[1] = nodo
 
@@ -417,10 +456,10 @@ class GraphBase(Graph, metaclass=ABCMeta):
                 if lunghezzaPercorso[
                     0] < treeNode.distanza:  # Se la foglia ha una distanza superiore a quella dell'attuale percorso, imposto i nuovi valori
                     lunghezzaPercorso[0] = treeNode.distanza
-                    lunghezzaPercorso[1] = treeNode
+                    lunghezzaPercorso[1] = []
+                    lunghezzaPercorso[1].append(treeNode)
                 elif lunghezzaPercorso[0] == treeNode.distanza:
-                    lunghezzaPercorso[0] = treeNode.distanza
-                    lunghezzaPercorso[1] = treeNode
+                    lunghezzaPercorso[1].append(treeNode)
 
             for nodeIndex in adjacentNodes:
                 if nodeIndex not in markedNodes:

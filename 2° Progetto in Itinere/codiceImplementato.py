@@ -15,12 +15,14 @@
 
         while (len(nodi) > 0):  # Fin quando ho nodi da di visitare
             percorso = self.mediumNode(random.choice(nodi))  # Ottengo il percorso più lungo nel grafo
+            # Va aggiunto il codice nel caso in cui ci siano più percorsi più lunghi
             if percorso[1] != 0:  # Se esiste un percorso,
                 nodoMassimo = self.backToFather(percorso[3])  # calcolo il valore del(dei) nodo massimo(massimi)
                 if (nodoMassimo != 0 and nodoMassimo[1] > nodeMax[
                     1]):  # Se il nuovo nodo è medio per un numero superiore di volte all'attuale massimo,
                     nodeMax[0] = nodoMassimo[0]  # imposto i suoi valori come nuovo massimo
                     nodeMax[1] = nodoMassimo[1]
+                # Aggiungere anche qui caso in cui siano medi uguali
             nodi = list(set(nodi) - set(
                 percorso[2]))  # Rimuovo dalla lista dei nodi quelli appartenenti al sottografo considerato
 
@@ -51,8 +53,10 @@
             primoElemento = percorso[int(len(percorso) / 2)]
             secondoElemento = percorso[int((len(percorso) / 2) + 1)]
 
-            first = len(percorso[:percorso.index(primoElemento)])  # Numero di nodi figli del primo elemento
-            second = len(percorso[percorso.index(secondoElemento):])  # Numero di nodi figli del secondo elemento
+            # Aggiungere rimozione dell'arco tra i due nodi
+
+            # Da modificare first = len(percorso[:percorso.index(primoElemento)])  # Numero di nodi figli del primo elemento
+            # Da modificare second = len(percorso[percorso.index(secondoElemento):])  # Numero di nodi figli del secondo elemento
 
             # Confronto il numero di elementi appartenenti ai sottoalberi ottenuti dai due elementi
             if first < second:
