@@ -282,8 +282,6 @@ class GraphBase(Graph, metaclass=ABCMeta):
 
         nodi = []  # Lista dei nodi appartenenti al grafo, con almeno un elemento adiacente
         nodeMax = [[], 0]  # Informazioni sul nodo che risulta medio il maggior numero di volte
-        nodiMedi= [] # Lista dei nodi che sono risultati medi
-        percorsi = [] # Lista dei percorsi più lunghi nei vari sotto-grafi
 
         for nodo in (self.getNodes()):  # Considero ogni nodo
             if (self.getAdjModified(nodo.id) != 0):  # Se il nodo ha almeno un nodo adiacente,
@@ -291,32 +289,31 @@ class GraphBase(Graph, metaclass=ABCMeta):
 
         while (len(nodi) > 0):  # Fin quando ho nodi da di visitare
             percorso = self.mediumNode(random.choice(nodi))  # Ottengo il percorso più lungo nel grafo
+
             for fogliaProfonda in percorso[1]: # Nel caso in cui all'interno di un sotto-grafo siano presenti più foglie con la stessa lunghezza del percorso
+
                     if (fogliaProfonda != 0):  # Se esiste un percorso,
                         nodoMassimo = self.backToFather(fogliaProfonda)  # calcolo il valore del(dei) nodo massimo(massimi)
-                        if (nodoMassimo != 0): # Verifico se la funzione ha restituito effettivamente una lista contenente i nodi medi
-                            percorsi = percorsi + [nodoMassimo] # Aggiungo il percorso alla lista
-                            nodiMedi = nodiMedi + nodoMassimo[0] # Aggiungo i nodi medi alla lista
-
+                        print("Weeee", nodoMassimo, nodeMax[1])
+                        if (nodoMassimo != 0 and nodoMassimo[0] != 0):
+                            if (nodoMassimo[1] > nodeMax[1]):  # Se il nuovo nodo è medio per un numero superiore di volte all'attuale massimo,
+                                    nodeMax[0] = []
+                                    nodeMax[0] = nodeMax[0] + nodoMassimo[0]  # imposto i suoi valori come nuovo massimo
+                                    nodeMax[1] = nodoMassimo[1]
+                                    print("Primaaa", nodeMax[1])
+                            #if (nodoMassimo[1] == nodeMax[1]):
+                            else:
+                                print(nodeMax[1])
+                                for j in nodoMassimo[0]:
+                                    if (j in nodeMax[0]):
+                                        nodeMax[0] = []
+                                        nodeMax[0].append(j)
+                                        print("Prima sommaaa", nodeMax[1])
+                                        nodeMax[1] = nodeMax[1] + nodoMassimo[1]
+                                        print("Dopo sommaaa", nodeMax[1])
+                                    else:
+                                        nodeMax[0] = nodeMax[0] + nodoMassimo[0]
             nodi = list(set(nodi) - set(percorso[2]))  # Rimuovo dalla lista dei nodi quelli appartenenti al sottografo considerato
-
-        # Se presenti duplicati, li rimuovo dalla lista dei nodi medi
-        nodiMedi = list(set(nodiMedi))
-
-        for k in nodiMedi: # Considero ogni nodo risultato medio
-            contatoreNodo = 0 # Pongo a 0 il suo contatore
-            for i in percorsi: # Per ogni percorso
-                if k in i[0]:  # Se il nodo considerato è presente nel percorso,
-                    contatoreNodo = contatoreNodo + i[1] # aggiungo al contatore del nodo il numero di volte che il nodo è risultato medio
-                    i[0].remove(k) # Rimuovo il nodo dal percorso, in questo modo il prossimo ciclo dovrà "cercare" in un numero minore di nodi
-
-            if (contatoreNodo > nodeMax[1]): # Confronto il contatore del numero di volte che il nodo risulta medio con il valore dell'attuale nodo massimo
-                    nodeMax[0] = [k] # Se maggiore, pongo il nuovo nodo come massimo,
-                    nodeMax[1] = contatoreNodo # ed il suo contatore come indice di paragone per i nodi successivi
-
-            if (contatoreNodo == nodeMax[1]): # Se uguale,
-                    nodeMax[0].append(k) # aggiungo il nodo alla lista
-
         nodeMax[0] = list(set(nodeMax[0])) # Rimuovo, se presenti, i nodi considerati più volte
         return nodeMax  # Restituisco il nodo massimo e le volte che risulta massimo nel grafo
 
@@ -357,16 +354,17 @@ class GraphBase(Graph, metaclass=ABCMeta):
                 nodeList = [[primoElemento, secondoElemento], first]
         else:
             # Se il numero di elementi nel percorso è dispari, prendo quello che sta a metà
-            nodeList = [[percorso[int(len(percorso) / 2) ] ]  , int(len(percorso) / 2)]
+            nodeList = [[    percorso[int(len(percorso) / 2) ] ]  , int(len(percorso) / 2)]
 
         return nodeList
 
     def calculateSubNode(self, rootId):
-        # Utilizzo l'algoritmo per la visita generica visto a lezione
+          # Contatore degli elementi figli del nodo
+          # Utilizzo l'algoritmo per la visita generica visto a lezione
 
         if rootId not in self.nodes:
             return None
-        counter = 0 # Contatore dei igli del nodo
+        counter = 0
         treeNode = TreeNode(rootId)
         vertexSet = {treeNode}
         markedNodes = {rootId}
@@ -391,12 +389,11 @@ class GraphBase(Graph, metaclass=ABCMeta):
         :return: lista contenente le informazioni sul nodo massimo e sul percorso
         """
 
-        max = [0, [], 0, []]  # Inizializzo a 0
+        max = [0, [], 0, []]  # Inizializzo a 0 le informazioni riguardo al nodo massimo
 
         # max[0] = lunghezza del percorso
-        # max[1] = Lista dei nodi più profondi
+        # max[1] = foglia più profonda
         # max[2] = lista dei nodi visitati
-        # max[3] = Id dei nodi più profondi
 
         # Utilizzando l'algoritmo per la visita generica visto a lezione, scansiono l'albero
         if rootId not in self.nodes:
@@ -417,9 +414,10 @@ class GraphBase(Graph, metaclass=ABCMeta):
                     max[1] = lunghezzaPercorso[1]
                     max[3] = max[3] + lunghezzaPercorso[2]
                 if (lunghezzaPercorso[0] == max[0]):
-                    for i in lunghezzaPercorso[1]: # Per ogni nodo il cui percorso risulta massimo,
-                        if (i.info not in max[3]): # controllo che non sia già presente nella lista dei nodi massimi
-                            max[1] = max[1] + lunghezzaPercorso[1] # In caso non sia presente, lo aggiungo alla lista dei nodi "più profondi"
+                    for i in lunghezzaPercorso[1]:
+                        if (i.info not in max[3]):
+                            max[1] = max[1] + lunghezzaPercorso[1]
+
             for nodeIndex in adjacentNodes:
                 if nodeIndex not in markedNodes:
                     newTreeNode = TreeNode(nodeIndex)
@@ -439,11 +437,9 @@ class GraphBase(Graph, metaclass=ABCMeta):
         :return: the generic exploration tree.
         """
 
-        lunghezzaPercorso = [0, [], []] # Inizializzo a 0
-
+        lunghezzaPercorso = [0, [], []]
         # lunghezzaPercorso[0] = distanza del nodo dalla radice
         # lunghezzaPercorso[1] = nodo
-        # lunghezzaPercorso[2] = Id del nodo
 
         # Eseguo una visita generica utilizzando l'algoritmo visto a lezione
         if rootId not in self.nodes:
@@ -465,7 +461,7 @@ class GraphBase(Graph, metaclass=ABCMeta):
                     lunghezzaPercorso[1] = []
                     lunghezzaPercorso[1].append(treeNode)
                     lunghezzaPercorso[2].append(treeNode.info)
-                elif lunghezzaPercorso[0] == treeNode.distanza: # Altrimenti aggiungo agli altri valori già presenti in lista
+                elif lunghezzaPercorso[0] == treeNode.distanza:
                     lunghezzaPercorso[1].append(treeNode)
                     lunghezzaPercorso[2].append(treeNode.info)
 
