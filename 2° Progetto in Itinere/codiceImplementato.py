@@ -52,7 +52,6 @@ def controlloFunzione(self):
     nodeMax[0] = list(set(nodeMax[0]))  # Rimuovo, se presenti, i nodi considerati più volte
     return nodeMax  # Restituisco il nodo massimo e le volte che risulta massimo nel grafo
 
-
 def backToFather(self, rootID):
     """
     Questa funzione, dato un grafo ed il percorso più lungo all'interno di un suo sottografo, restituisce una lista contenente l'Id
@@ -96,6 +95,11 @@ def backToFather(self, rootID):
 
 
 def calculateSubNode(self, rootId):
+    """
+    Questa funzione, dato un grafo e l'Id di un suo nodo, mi restituisce il numero di nodi raggiungibili a partire dal nodo
+    :param rootId: Id del nodo
+    :return: Numero di elementi che posso raggiungere a partire dal nodo
+    """
     # Utilizzo l'algoritmo per la visita generica visto a lezione
 
     if rootId not in self.nodes:
