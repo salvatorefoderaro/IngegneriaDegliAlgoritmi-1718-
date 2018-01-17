@@ -1,4 +1,4 @@
-def controlloFunzione(self):
+def mediumNode(self):
     """
     Questa funzione, dato un grafo, restituisce una lista contenente la lista dei nodi massimi ed il numero di volte
     che risultano medi all'interno del grafo.
@@ -16,7 +16,7 @@ def controlloFunzione(self):
             nodi.append(nodo.id)  # lo aggiungo alla lista dei nodi da visitare
 
     while (len(nodi) > 0):  # Fin quando ho nodi da di visitare
-        percorso = self.mediumNode(random.choice(nodi))  # Ottengo il percorso più lungo nel grafo
+        percorso = self.findLeaf(random.choice(nodi))  # Ottengo il percorso più lungo nel grafo
         for fogliaProfonda in percorso[
             1]:  # Nel caso in cui all'interno di un sotto-grafo siano presenti più foglie con la stessa lunghezza del percorso
             if (fogliaProfonda != 0):  # Se esiste un percorso,
@@ -121,7 +121,7 @@ def calculateSubNode(self, rootId):
     return counter
 
 
-def mediumNode(self, rootId):
+def findLeaf(self, rootId):
     """
     Questa funzione, dato un grafo e l'id di un nodo, esegue una visita generica. Per ogni foglia, chiama la funzione
     leafDistance, confrontando i valori ottenuti con quelli della lista massima.
