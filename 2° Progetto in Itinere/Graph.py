@@ -342,7 +342,6 @@ class GraphBase(Graph, metaclass=ABCMeta):
             percorso.append(rootID.info)  # aggiungo il padre alla lista dei nodi appartenenti al percorso,
             rootID = rootID.father  # imposto il padre come nuovo nodo
         percorso.append(rootID.info)
-
         if len(percorso) < 3:  # Se ho meno di tre elementi nel percorso, nessun nodo risulta medio
             return 0
 
@@ -351,14 +350,14 @@ class GraphBase(Graph, metaclass=ABCMeta):
             # Ottengo i due elementi medi nella lista
             primoElemento = percorso[int(len(percorso) / 2) - 1]
             secondoElemento = percorso[int(len(percorso) / 2)]
-            self.deleteEdge(primoElemento, secondoElemento)
-            self.deleteEdge(secondoElemento, primoElemento)
+            self.deleteEdge(primoElemento, secondoElemento) # Elimino gli archi tra i due nodi
+            self.deleteEdge(secondoElemento, primoElemento) # ...
             first = self.calculateSubNode(primoElemento)  # Numero di nodi figli del primo elemento
             second = self.calculateSubNode(secondoElemento)  # Numero di nodi figli del secondo elemento
             # Confronto il numero di elementi appartenenti ai sottoalberi ottenuti dai due elementi
-            if first < second:
+            if second > first:
                 nodeList = [[secondoElemento], second]
-            elif second > first:
+            elif first > second:
                 nodeList = [[primoElemento], first]
             else:
                 nodeList = [[primoElemento, secondoElemento], first]

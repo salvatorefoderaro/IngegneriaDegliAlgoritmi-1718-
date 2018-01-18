@@ -1,7 +1,20 @@
+"""
+    File name: demoAlgoritmo.py
+    Author: Salvatore Foderaro, Alberto Menichelli, Giorgia Di Blasi
+    Date created: 23/12/2017
+    Modified By: Salvatore Foderaro
+    Date last modified: 18/01/2018
+    Python Version: 3.6.3
+
+    Questo modulo implementa diverse funzioni per creare i grafi descritti nella relazione del progetto.
+"""
+
+
 from Graph_AdjacencyList import GraphAdjacencyList
 from Graph_AdjacencyMatrix import GraphAdjacencyMatrix
 from Graph_IncidenceList import GraphIncidenceList
 import random
+
 
 def createRandomGraph(numNodes, strutturaDati=GraphAdjacencyList):
     """"
@@ -136,7 +149,18 @@ def createRelationGraphPari(strutturaDati=GraphAdjacencyList):
     return graph
 
 if __name__ == "__main__":
-
-    grafo = createRandomGraph(10)
-    for i in (grafo.getEdges()):
-        print(i)
+    print("---------- GRAFO RANDOM + 1 NODO DISCONNESSO ----------")
+    grafo = createRandomGraph(100)
+    print("\nNumero di nodi:", len(grafo.getNodes()),"\nNumero di archi:", int(len(grafo.getEdges())/2),"\nLa lista dei nodi medi nel grafo è:", grafo.mediumNode(),"\n")
+    print("---------- (N-1)-HEAP + 1 NODO DISCONNESSO ----------")
+    grafo = createWorstGraph(100)
+    print("\nNumero di nodi:", len(grafo.getNodes()),"\nNumero di archi:", int(len(grafo.getEdges())/2),"\nLa lista dei nodi medi nel grafo è:", grafo.mediumNode(),"\n")
+    print("---------- 1-HEAP + 1 NODO DISCONNESSO")
+    grafo = createBestGraph(100)
+    print("\nNumero di nodi:", len(grafo.getNodes()),"\nNumero di archi:", int(len(grafo.getEdges())/2),"\nLa lista dei nodi medi nel grafo è:", grafo.mediumNode(),"\n")
+    print("---------- GRAFO FIGURA 2 RELAZIONE ----------")
+    grafo = createRelationGraphPari()
+    print("\nNumero di nodi:", len(grafo.getNodes()),"\nNumero di archi:", int(len(grafo.getEdges())/2),"\nLa lista dei nodi medi nel grafo è:", grafo.mediumNode(),"\n")
+    print("---------- GRAFO FIGURA 1 RELAZIONE ----------")
+    grafo = createRelationGraphDispari()
+    print("\nNumero di nodi:", len(grafo.getNodes()),"\nNumero di archi:", int(len(grafo.getEdges())/2),"\nLa lista dei nodi medi nel grafo è:", grafo.mediumNode(),"\n")

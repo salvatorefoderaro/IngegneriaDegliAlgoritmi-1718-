@@ -1,3 +1,15 @@
+"""
+    File name: codiceImplementato.py
+    Author: Salvatore Foderaro, Alberto Menichelli, Giorgia Di Blasi
+    Date created: 23/12/2017
+    Modified By: Salvatore Foderaro
+    Date last modified: 18/01/2018
+    Python Version: 3.6.3
+
+    Questo modulo illustra le funzioni utilizzate per la risoluzione del secondo problema.
+    L'implementazione del codice è disponibile nel file "Graph.py" a partire dalla linea di codice numero 275
+"""
+
 def mediumNode(self):
     """
     Questa funzione, dato un grafo, restituisce una lista contenente la lista dei nodi massimi ed il numero di volte
@@ -227,3 +239,7 @@ def leafDistance(self, rootId):
                 markedNodes.append(nodeIndex)
 
     return lunghezzaPercorso  # Restituisco la lista con i valori
+
+if __name__ == "__main__":
+
+    print("I wasn't born to be executed!")
