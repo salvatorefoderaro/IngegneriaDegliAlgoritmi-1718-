@@ -10,9 +10,9 @@
 """
 
 
-from Graph_AdjacencyList import GraphAdjacencyList
-from Graph_AdjacencyMatrix import GraphAdjacencyMatrix
-from Graph_IncidenceList import GraphIncidenceList
+from graphFile.Graph_AdjacencyList import GraphAdjacencyList
+from graphFile.Graph_AdjacencyMatrix import GraphAdjacencyMatrix
+from graphFile.Graph_IncidenceList import GraphIncidenceList
 import random
 
 

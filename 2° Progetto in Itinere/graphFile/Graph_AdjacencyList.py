@@ -1,5 +1,5 @@
-from Graph import GraphBase
-from base import Edge, Node
+from graphFile.Graph import GraphBase
+from graphFile.base import Edge, Node
 from tree.treeArrayList import TreeArrayListNode as TreeNode
 from tree.treeArrayList import TreeArrayList as Tree
 from queue.Queue import CodaArrayList_deque as Queue
