@@ -1,10 +1,7 @@
 from Graph_AdjacencyList import GraphAdjacencyList
 from Graph_AdjacencyMatrix import GraphAdjacencyMatrix
 from Graph_IncidenceList import GraphIncidenceList
-import time
 import random
-import os
-
 
 def createRandomGraph(numNodes, strutturaDati=GraphAdjacencyList):
     """"
@@ -16,15 +13,17 @@ def createRandomGraph(numNodes, strutturaDati=GraphAdjacencyList):
     heads = []
     numEdges = int(4 * numNodes)
 
-    for k in range(1, numNodes):
+    for k in range(1, numNodes+1):
         graph.addNode(k)
         nodes.append(k)
 
     for j in range(1, numEdges):
         a = random.choice(nodes)
         b = random.choice(nodes)
-        if (a != b):
-            if (b not in heads):
+        controllo1 = graph.getEdge(a,b) # Controllo se è presente un arco (a,b)
+        controllo2 = graph.getEdge(b,a) # Controllo se è presente un arco (b,a)
+        if (a != b and b not in heads):
+            if (controllo1 == None and controllo2 == None):  # Se non è presente nessuno dei due archi tra i due nodi
                 heads.append(b)
                 graph.insertEdge(a, b)
                 graph.insertEdge(b, a)
@@ -39,16 +38,16 @@ def createBestGraph(numNodes, strutturaDati=GraphAdjacencyList):
     graph = strutturaDati()
     nodes = []
 
-    for k in range(1, numNodes):
+    for k in range(1, numNodes+1):
         graph.addNode(k)
         nodes.append(k)
 
-    for i in range(1, numNodes):
+    for i in range(1, numNodes+1):
         graph.insertEdge(i, i+1)
         graph.insertEdge(i+1, i)
 
-    graph.addNode(numNodes)
-    nodes.append(numNodes)
+    graph.addNode(numNodes+1)
+    nodes.append(numNodes+1)
 
     return graph
 
@@ -56,16 +55,16 @@ def createWorstGraph(numNodes, strutturaDati=GraphAdjacencyList):
     graph = strutturaDati()
     nodes = []
 
-    for k in range(1, numNodes):
+    for k in range(1, numNodes+1):
         graph.addNode(k)
         nodes.append(k)
 
-    for i in range(2, numNodes):
+    for i in range(2, numNodes+1):
             graph.insertEdge(1,i)
             graph.insertEdge(i,1)
 
-    graph.addNode(numNodes)
-    nodes.append(numNodes)
+    graph.addNode(numNodes+1)
+    nodes.append(numNodes+1)
 
     return graph
 
@@ -78,27 +77,26 @@ def createRelationGraphDispari(strutturaDati=GraphAdjacencyList):
         graph.addNode(k)
         nodes.append(k)
 
-
     graph.insertEdge(1,2)
     graph.insertEdge(2,1)
 
     graph.insertEdge(1,3)
     graph.insertEdge(3,1)
+
     graph.insertEdge(3,7)
     graph.insertEdge(7,3)
+
     graph.insertEdge(1,4)
     graph.insertEdge(4,1)
+
     graph.insertEdge(4,6)
     graph.insertEdge(6,4)
+
     graph.insertEdge(1,8)
     graph.insertEdge(8,1)
+
     graph.insertEdge(8,5)
     graph.insertEdge(5,8)
-
-
-
-    graph.addNode(k)
-    nodes.append(k)
 
     return graph
 
@@ -110,7 +108,6 @@ def createRelationGraphPari(strutturaDati=GraphAdjacencyList):
     for k in range(1, 20):
         graph.addNode(k)
         nodes.append(k)
-
 
     graph.insertEdge(10,12)
     graph.insertEdge(12,10)
@@ -136,17 +133,10 @@ def createRelationGraphPari(strutturaDati=GraphAdjacencyList):
     graph.insertEdge(13,16)
     graph.insertEdge(16,13)
 
-
-
-
-
-    graph.addNode(k)
-    nodes.append(k)
-
     return graph
 
 if __name__ == "__main__":
 
-    grafo = createRelationGraphPari(GraphAdjacencyList)
-    print("Il numero di nodi appartenenti al grafo è:", grafo.numNodes(),"\nIl numero di archi appartenenti al grafo è:", int(grafo.numEdges()/2),
-          "\nIl nodo (nodi) medio è:", grafo.mediumNode())
+    grafo = createRandomGraph(10)
+    for i in (grafo.getEdges()):
+        print(i)

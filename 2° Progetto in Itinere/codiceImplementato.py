@@ -22,12 +22,13 @@ def mediumNode(self):
             if (fogliaProfonda != 0):  # Se esiste un percorso,
                 nodoMassimo = self.backToFather(fogliaProfonda)  # calcolo il valore del(dei) nodo massimo(massimi)
                 if (
-                    nodoMassimo != 0):  # Verifico se la funzione ha restituito effettivamente una lista contenente i nodi medi
+                            nodoMassimo != 0):  # Verifico se la funzione ha restituito effettivamente una lista contenente i nodi medi
                     percorsi = percorsi + [nodoMassimo]  # Aggiungo il percorso alla lista
                     nodiMedi = nodiMedi + nodoMassimo[0]  # Aggiungo i nodi medi alla lista
 
         nodi = list(
-            set(nodi) - set(percorso[2]))  # Rimuovo dalla lista dei nodi quelli appartenenti al sottografo considerato
+            set(nodi) - set(
+                percorso[2]))  # Rimuovo dalla lista dei nodi quelli appartenenti al sottografo considerato
 
     # Se presenti duplicati, li rimuovo dalla lista dei nodi medi
     nodiMedi = list(set(nodiMedi))
@@ -50,7 +51,8 @@ def mediumNode(self):
             nodeMax[0].append(k)  # aggiungo il nodo alla lista
 
     nodeMax[0] = list(set(nodeMax[0]))  # Rimuovo, se presenti, i nodi considerati più volte
-    return nodeMax  # Restituisco il nodo massimo e le volte che risulta massimo nel grafo
+    return nodeMax[0]  # Restituisco il nodo massimo e le volte che risulta massimo nel grafo
+
 
 def backToFather(self, rootID):
     """
@@ -74,12 +76,12 @@ def backToFather(self, rootID):
     if (len(
             percorso) % 2) == 0:  # Se il numero di elementi è pari, devo controllare quale dei due elementi ha il maggior numero di figli
         # Ottengo i due elementi medi nella lista
-        primoElemento = percorso[int(len(percorso) / 2)]
-        secondoElemento = percorso[int((len(percorso) / 2) + 1)]
-
+        primoElemento = percorso[int(len(percorso) / 2) - 1]
+        secondoElemento = percorso[int(len(percorso) / 2)]
+        self.deleteEdge(primoElemento, secondoElemento)
+        self.deleteEdge(secondoElemento, primoElemento)
         first = self.calculateSubNode(primoElemento)  # Numero di nodi figli del primo elemento
         second = self.calculateSubNode(secondoElemento)  # Numero di nodi figli del secondo elemento
-
         # Confronto il numero di elementi appartenenti ai sottoalberi ottenuti dai due elementi
         if first < second:
             nodeList = [[secondoElemento], second]
@@ -172,7 +174,7 @@ def findLeaf(self, rootId):
                 vertexSet.add(newTreeNode)
                 markedNodes.append(nodeIndex)
 
-    max[2] = markedNodes
+    max[2] = markedNodes # In max[2] avrò la lista dei nodi visitati durante la visita
     return max
 
 

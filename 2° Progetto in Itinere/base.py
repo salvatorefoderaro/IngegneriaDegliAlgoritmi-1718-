@@ -81,7 +81,9 @@ class Edge:
         :param other: the other edge.
         :return: True if weights are equal; False, otherwise.
         """
-        return self.weight == other.weight
+        if (other != None):
+
+            return self.weight == other.weight
 
     def __str__(self):
         """

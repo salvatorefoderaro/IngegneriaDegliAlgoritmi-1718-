@@ -349,10 +349,10 @@ class GraphBase(Graph, metaclass=ABCMeta):
         if (len(
                 percorso) % 2) == 0:  # Se il numero di elementi è pari, devo controllare quale dei due elementi ha il maggior numero di figli
             # Ottengo i due elementi medi nella lista
-            primoElemento = percorso[int(len(percorso) / 2)-1]
+            primoElemento = percorso[int(len(percorso) / 2) - 1]
             secondoElemento = percorso[int(len(percorso) / 2)]
-            self.deleteEdge(primoElemento,secondoElemento)
-            self.deleteEdge(secondoElemento,primoElemento)
+            self.deleteEdge(primoElemento, secondoElemento)
+            self.deleteEdge(secondoElemento, primoElemento)
             first = self.calculateSubNode(primoElemento)  # Numero di nodi figli del primo elemento
             second = self.calculateSubNode(secondoElemento)  # Numero di nodi figli del secondo elemento
             # Confronto il numero di elementi appartenenti ai sottoalberi ottenuti dai due elementi
@@ -445,7 +445,7 @@ class GraphBase(Graph, metaclass=ABCMeta):
                     vertexSet.add(newTreeNode)
                     markedNodes.append(nodeIndex)
 
-        max[2] = markedNodes
+        max[2] = markedNodes  # In max[2] avrò la lista dei nodi visitati durante la visita
         return max
 
     def leafDistance(self, rootId):
